@@ -1,4 +1,4 @@
-% !TeX encoding = windows-1252
+% !TeX encoding = UTF-8
 % !TeX spellcheck = en_US
 \documentclass{article}
 
@@ -8,7 +8,7 @@
 \usepackage{xcolor}
 \usepackage{eurosym}
 \usepackage[ngerman]{babel}
-\usepackage[ansinew]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[a4paper]{geometry}
 \usepackage{csquotes}
 
@@ -29,34 +29,120 @@
 See slides\marginpar{Slides 1-16}
 
 \section{Review of basic statistics}
+Random Variable: obtains numerical values which are not known priorly but are random.
 
-\begin{itemize}
-	\item Random experiment (Zufallsexperiment)
-	\item Sample space (Ergebnismenge)
-	\item Event (Ereignis)
-	\item Set operations (Verkn\"{u}pfungen von Ereignissen)
-	\item Partition (Partition oder vollst\"{a}ndige Zerlegung)
-	\item Probability (Wahrscheinlichkeit)	
-	\item Kolmogorov's axioms (Kolmogorovs Axiome)	
-	\item Conditional probability (bedingte Wahrscheinlichkeit)	
-	\item Total probability (Satz von der totalen Wahrscheinlichkeit)	
-	\item Bayes' theorem (Satz von Bayes)	
-	\item Independence (Unabh\"{a}ngigkeit)	
-	\item Random variables (Zufallsvariable)	
-	\begin{itemize}
-		\item Definition and intuition
-		\item Distribution function and quantile function (Verteilungsfunktion und Quantilfunktion)		
-		\item Discrete and continuous random variables (diskrete und stetige Zufallsvariable)
-		\item Density function (Dichtefunktion)		
-		\item Expectation (Erwartungswert)		
-		\item Variance (Varianz)
-	\end{itemize}
-	\item Special discrete distributions, e.g. Bernoulli, binomial, Poisson, geometric, hypergeometric, \ldots
-	\item Special continuous distributions, e.g. normal, standard normal distribution, exponential, Pareto, $\chi ^{2},$$F,$ $t$, \ldots
-	\item There are many more special distributions
-	\item Which distribution can be used when?
-\end{itemize}
+Randomness means: different possible values occur with certain probabilities (m√∂gliche Auspr√§gungen)
 
+which of the possible outcomes actually occur is the result of a random experiment.
+
+Example: $u_1$: single roll of dice, number, $N=6$ possible outcomes.
+
+In the random experiment ''Throw dice once'' each outcome has probability $1/6$ (Laplace probability)
+
+$u_2$: sum of thrown numbers in rolling the dice twice, $N=11$ possible outcomes, e.g. ''2'': $Pr(u_2=2) = 1/6\cdot 1/6 = 1/36$. Another example: $Pr(u_2=3) = f(3)=2\cdot 1/6\cdot 1/6 = 2/36$
+
+$f(u_2=x)$ is denoted as probability distribution (pdf).
+
+\includegraphics[width=.5\textwidth]{plots/pdfs.jpg}
+
+Discrete Random Variable: Able to compute the possible outcomes, e.g. $u_3$: sum of thrown numbers in 10000 rolls of the dice is discrete, but $u_3$ is almost continuous. For discrete RV we have $\sum_{i=1}^{N} f(u_i) = 1$
+
+Continuous Random Variable: $u_4$: real in interval $[0,1]$. For continuous RV we have $\int_{-\infty}^{\infty} f(u_i)di = 1$, i.e. area under pdf sums to 1.
+
+Expectation of a random variable for $u$: number of one roll of dice:
+$$E(u)=\sum_{i=1}^N f(u_i) u_i = \frac{1}{6}(1+2+3+4+5+6) = 3.5$$
+weighted average of all possible outcomes (probabilities are weights)
+
+Idea: if we repeat the random experiment an infinite number of times the arithmetic mean will be 3.5 (which will never occur of course).
+
+Variance: measure of dispersion around the expectation
+$$var(u) = \sum_{i=1}^{N}f(u_i) (u_i - E(u_i))^2$$
+weighted average of quadratic deviations from mean. Note that $f(u_i) = f((u_i-E(u))^2)$ since $E(u)$ deterministic, same probability of occurences, hence variance is also an expectation $$var(u) = E((u-E(u))^2)$$
+$\sqrt{var(u)}$ is the standard deviation and has same dimension as u
+
+\paragraph{Conditional and joint probability}
+u: number of single roll of dice
+
+v: number of natural numbers through which the trown number of the dice may be divided
+
+\begin{tabular}{c|cccccc}
+	\hline 
+	RV& \multicolumn{6}{c|}{Outcomes} \\ 
+	\hline 
+	u& 1 & 2 & 3 & 4 & 5 & 6 \\ 
+	\hline 
+	v& 1 & 2 & 2 & 3 & 2 & 4 \\ 
+	\hline 
+\end{tabular} 
+Is there a dependence? How do we measure that? Conditional probabilites! Conditional on $v=2$: $Pr(u=3|v=2)=f(u=3|v=2)=1/3$. 2, 3 and 5 are equally likely:
+$f(u=1|v=2)=0$
+$f(u=2|v=2)=1/3$
+$f(u=3|v=2)=1/3$
+$f(u=4|v=2)=0$
+$f(u=5|v=2)=1/3$
+$f(u=6|v=2)=0$
+
+joint distribution: probability distribution for the $N_u N_v = 6\cdot 4=24$ possible outcomes of u and v jointly, hence $f(u,v)$:
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+	\hline 
+	& \multicolumn{7}{c|}{u} \\ 
+	\hline 
+	&  & 1 & 2 & 3 & 4 & 5 & 6 \\ 
+	\hline 
+	& 1 & 1/6 & 0 & 0 & 0 & 0 & 0 \\ 
+	\hline 
+	v & 2 & 0 & 1/6 & 1/6 & 0 & 1/6 & 0 \\ 
+	\hline 
+	& 3 & 0 & 0 & 0 & 1/6 & 0 & 0 \\ 
+	\hline 
+	& 4 & 0 & 0 & 0 & 0 & 0 & 1/6 \\ 
+	\hline 
+\end{tabular} 
+$f(u=3,v=2) = 1/6 = f(u=3|v=2)\cdot f(v=2) = 1/3 \cdot 1/2 = 1/6$
+$$f(u,v) = f(u|v) f(v) = f(v|u) f(u)$$
+
+Covariance: idea of positive relationship: if u is rather large, $u-E(u)>>0$, then $v-E(v)>>0$ should also be rather large.
+Covariance is a measure for the linear relationship between RV. Look at scatterplot: the better we can put all (u,v) combinations on a straigth line the larger the covariance
+$$cov(u,v) = \sum_{i=1}^{N_u}\sum_{j=1}^{N_v} f(u_i,v_j)[(u_i-E(u))(v_j-E(v))]$$
+weights according to joint probability
+$$cov(u,v) = E[(u-E(u))(v-E(v))]$$
+Note that it is always possible (and likely) that there is a nonlinear relationship (study of copulas).
+
+To make covariance independent of units of measure, divide by standard deviations to get correlation:
+$$\rho = corr(u,v) = \frac{cov(u,v)}{sd(u)sd(v)}$$
+with $-1\leq \rho \leq 1$.
+
+Independence: Random variables that don't have any relationship (neither linear nor nonlinear) are called independent
+
+Example: $u_1$: number on rolled dice 1,$u_2$: number on rolled dice 2, then 
+$$f(u_1|u_2) = f(u_1)$$
+or 
+$$f(u_1,u_2) = f(u_1)f(u_2)=1/36$$
+
+Independence implies a cov=corr=0, but not the other way around.
+
+Rules: Let $u_1$ and $u_2$ be random variables and a,b scalars, then
+\begin{align*}
+E(b) = b\\
+E(b u_1) = b E(u_1)\\
+E(u_1+ u_2) = E(u_1) + E(u_2)\\
+E(u_1 u_2) \neq E(u_1) E(u_2) \text{Except when independent}\\
+E(E(u_1)) = E(u_1) \text{ $E(u)$ is not a random variable}
+\end{align*}
+
+$u_3 = a u_1 + b u_2$
+$$var(u_3) = a^2 var(u_1) + b^2 var(u_2) + 2 ab cov(u_1,u_2)$$
+$u_4 = a+b u_2$
+$$var(u_4) = b^2var(u_2)$$
+$$cov(u_1,u_2)=cov(u_2,u_1)$$
+
+\paragraph{Probability distributions: Normal distribution}
+has bell shape with 2 shape parameters: expectation $\mu$ and variance $\sigma^2$
+$$u\sim N(\mu,\sigma^2)$$
+$$f(u) = \frac{1}{\sqrt{2\pi var(u)}} exp\{-\frac{1}{2}\frac{(u-E(u))^2}{var(u)}$$
+
+
+\paragraph{Probability distributions: bivariate normal distribution}
 Let $X$ and $Y$ be both  (jointly) normally distributed: $X_i \sim N(\mu_x, \sigma^2_x)$ and $Y_i \sim N(\mu_y, \sigma^2_y)$, $corr(X,Y) = \rho$, then the joint density is
 $$f(x,y)=\frac{1}{2\pi\sigma_x\sigma_y(1-\rho^2)}exp\left\{-\frac{-\tilde{x}^2-2\rho\tilde{x}\tilde{y}+\tilde{y}^2}{2(1-\rho)^2}\right\}$$ where $\tilde{x} = (x-\mu_x)/\sigma_x$ and $\tilde{y} = (y-\mu_y)/\sigma_y$.
 
@@ -71,7 +157,74 @@ $$Y|X \sim N(\alpha + \beta X, \sigma^2)$$
 where $\alpha = \mu_y - \mu_x\rho\frac{\sigma_y}{\sigma_x}$ and $\beta=\rho \frac{\sigma_y}{\sigma_x}$ and $\sigma^2 = \sigma_y^2(1-\rho^2)$. Alternatively:
 $Y = \underbrace{\alpha + \beta X}_{E(Y|X)} + u$ with $u\sim N(0,\sigma^2)$.
 
-\section{Simple linear regression model}
+This is basically what we do with linear regression models.
+
+\paragraph{Empirical counterparts to expectation, variance and correlation}
+We now look at the ACTUAL OUTCOME, denote this with small letters $x_1,x_2,...x_T$
+
+Sample mean: $\widehat{E(X)} = \bar{X} = \frac{1}{T} \sum_{t=1}^{T} x_t$ unweighted arithmetic average of realized outcomes. the mean is an unbiased and consistent estimate for the expectation.
+
+Sample variance: $\widehat{var(X)} = S^2 = \frac{1}{T-1} \sum_{t=1}^{T} (x_t -\bar{x})^2 = \frac{1}{T-1} S_{xx}$ we call $S_{xx}$ the variation
+
+Why do we divide by $T-1$ instead of just $T$:
+
+If we divide by $T$ then the estimator is biased. The correction $T/(T-1)$ is called Bessel's correction, it corrects the bias in estimation of the population variance when the population mean is UNKNOWN.
+
+Sample variance is calculated as mean of squared deviations of sample values from sample mean. As the true population mean is unknown, we loose a degree of freedom.
+
+Consider $T=1$: $x_1$ is estimate of expectation, no estimate of variance possible. $T=2$ we may start to make inference about variance.
+
+With T observations, we take only $T-1$ observations to estimate the variance. We need to distinguish population variance
+$$\sigma^2 = \sum{i=1}^N \frac{(X_i -\mu)^2}{N}$$
+and variance of sample
+$$\sigma_t^2 = \sum{i=1}^n \frac{(X_i -\bar{X})^2}{n}$$
+Sample variance $S^2$ is an estimator of $\sigma^2$, not $\sigma_t^2$
+
+X deviates from $\bar(X)$ with variance $\sigma_t^2$. Sample mean $\bar{X}$ deviates from $\mu$ with variance $\sigma^2/n$ (sample mean gets different values from sample to sample, it is a random variable with mean $\mu$ and variance $\sigma^2/n$. Roughly: X should deviate from $\mu$ with a variance that includes 2 terms:
+$$\sigma^2 = \sigma_t^2 + \frac{\sigma^2}{n} \Leftrightarrow \sigma^2 = \frac{n}{n-1} \sigma_t^2$$
+
+Unbiasedness:
+
+\begin{align*}
+E(\bar{X}) = \frac{1}{T} \sum_{t=1}^{T} E(X_t) = \frac{T}{T} \mu = \mu\\
+\end{align*}
+
+\begin{align*}
+E(S^2) = \frac{1}{T-1} \left(T E(X_t^2) - T E(\bar{X})^2\right)
+\end{align*}
+with
+$$E(X_t^2) = E(X_t)^2 + V(X_t) = \mu^2 + \sigma^2$$
+$$E(\bar{X})^2 = \mu^2 + V(\bar{X})$$
+$$V(\bar{X}) = V(\frac{1}{T} \sum X_t) = \frac{1}{T^2} \sum(V(X_t)) = \frac{\sigma^2}{T}$$
+Hence
+\begin{align*}
+E(S^2) = \frac{1}{T-1} \left(T (\mu^2 + \sigma^2) - T (\mu^2 + \sigma^2/T)\right) = \frac{T-1}{T-1} \sigma^2 = \sigma^2
+\end{align*}
+Note: $S^2$ is an unbiased estimator for the variance, but $S$ is a BIASED estimator for the standard deviation!
+
+Sample covariance:
+$$\widehat{cov(x,y)} = \frac{1}{T-1}\sum_{t=1}^T (x_t -\bar{x})(y_t - \bar{y}) = \frac{1}{T-1} S_{xy}$$
+$S_{xy}$ is a covariation. Sample correlation
+$$\widehat{corr(x,y)} = \frac{S_{xy}}{\sqrt{S_{xx}S_{yy}}}$$
+\paragraph{Standardization}
+$u\sim N(\mu,\sigma^2)$ then $z=\frac{u-\mu}{\sigma} \sim N(0,1)$ with $E(z)=\frac{E(u)-\mu}{\sigma}=0$ and $V(z)=\frac{1}{\sigma^2}var(u) = \frac{\sigma^2}{\sigma^2}=1$
+\paragraph{$\chi^2$ distribution}
+$$c = z_1^2 + z_2^2 + ... + z_v^2 \sim \chi^2(v)$$
+the sum of $v$ independent squared standard normally distributed variables is a $chi^2$ distributed variable with $v$ degrees of freedom. note that $c\geq0$.
+\includegraphics[width=0.5\textwidth]{plots/Chi-square_pdf.png}
+
+For large $v$ it is approximately normal
+\paragraph{t-distribution}
+$c \sim \chi^2(v)$ and $z\sim N(0,1)$ and $c$ and $z$ are independent, then
+$$t=\frac{z}{\sqrt{c/v}} \sim t(v)$$
+t-distributed variable with $v$ degrees of freedom. Note that $E(t)=0$ and $V(t)=\frac{v}{v-2}$, $v>2$
+\includegraphics[width=0.5\textwidth]{plots/360px-Student_t_pdf.png}
+Very similar to normal distribution, but flatter. for $v>30$ almost no difference
+
+\paragraph{F-distribution}
+$c_1 \sim \chi^2(v_1)$ and $c_2 \sim \chi^2(v_2)$ and $c_1$ and $c_2$ independent, then
+$$F=\frac{c_1/v_1}{c_2/v_2} = \frac{c_1}{c_2} \frac{v_2}{v_1} \sim F(v_1,v_2)$$, $F>0$
+\includegraphics[width=0.5\textwidth]{plots/800px-F-distribution_pdf.png}
 
 \subsection{Specification}
 
@@ -396,7 +549,7 @@ _{t}\left( \hat{\alpha}+\hat{\beta}x_{t}-\bar{y}\right) \\
 \end{eqnarray*}%
 Due to (\ref{n1}) and (\ref{n2}) this term equals zero. Hence, the decomposition is proved.
 
-Coefficient of determination (Bestimmtheitsmaﬂ) $R^2$
+Coefficient of determination (Bestimmtheitsma√ü) $R^2$
 \[ R^{2}=\frac{\text{`explained variation''}}
 {\text{``total variation''}}=\frac{S_{yy}-S_{\hat{u}\hat{u}}}{S_{yy}}=\frac{S_{\hat{y}\hat{y}}}{S_{yy}} \]
 
@@ -1373,7 +1526,7 @@ T$ observations $(\mathbf{x}_{t},y_{t})$
 \textbf{B-Assumptions}:
 
 The B-assumptions are the same as in the simple linear model, i.e. $E(u_{t})=0$, $Var(u_{t})=\sigma ^{2}$, 
-$Cov(u_{t},u_{s})=0$ f¸r $t\neq s$ and normality.
+$Cov(u_{t},u_{s})=0$ f√ºr $t\neq s$ and normality.
 
 B1 to B4 in matrix notation:
 \[ \mathbf{u}\sim N\left( \mathbf{0},\sigma ^{2}\mathbf{I}_{T}\right) \]
@@ -2009,7 +2162,7 @@ $F$-test
 The decisions of $t$-tests and an $F$-test can be contradicting\marginpar{tFtests.R}
 Distinction between individual $t$-tests and a simultaneous $F$
 
-\textbf{Der restringierte KQ-Sch‰tzer:}
+\textbf{Der restringierte KQ-Sch√§tzer:}
 
 Estimate $\mathbf{\beta }$  subject to the restrictions $\mathbf{R\beta }=\mathbf{q}$ 
  given in the null hypothesis. Optimization under constraints: Minimize
@@ -2735,7 +2888,7 @@ What happens if the difference is neglected?\marginpar{qualitative.R}
 Dummy variable
 \[ D_{t}=\left\{ 
 \begin{array}{ll}
-0 & \quad \text{wenn m‰nnlich} \\ 
+0 & \quad \text{wenn m√§nnlich} \\ 
 1 & \quad \text{wenn weiblich}
 \end{array} \right. \]
 Extended model
@@ -2779,8 +2932,8 @@ Estimation of the wage equation model
 +\beta_{2}x_{2t}+\delta _{2}D_{t}x_{2t}+u_{t} \]
  Compare with separat estimation of the two models: \marginpar{wages.R}
 \begin{align*}
-y_{t}&=\alpha _{M}+\beta _{M1}x_{1t}+\beta _{M2}x_{2t}+u_{t} &&\text{f¸r M‰nner} \\ 
-y_{t}&=\alpha _{F}+\beta _{F1}x_{1t}+\beta _{F2}x_{2t}+u_{t} &&\text{f¸r Frauen}
+y_{t}&=\alpha _{M}+\beta _{M1}x_{1t}+\beta _{M2}x_{2t}+u_{t} &&\text{f√ºr M√§nner} \\ 
+y_{t}&=\alpha _{F}+\beta _{F1}x_{1t}+\beta _{F2}x_{2t}+u_{t} &&\text{f√ºr Frauen}
 \end{align*}
 The point estimates and the sum of squared residuals are identical
 (why?)
@@ -2850,16 +3003,16 @@ D_{2t} &=&\left\{
 \end{itemize}
 
 \setcounter{section}{16}
-\section{Heteroskedastizit‰t}
+\section{Heteroskedastizit√§t}
 
-Annahme B2: $Var(u_t)=\sigma^2$ f¸r alle $t=1,\ldots,T$.
+Annahme B2: $Var(u_t)=\sigma^2$ f√ºr alle $t=1,\ldots,T$.
 
 Graphische Darstellung der Beispieldaten [rentexample.R].
 
-Welche Eigenschaften hat der OLS-Sch‰tzer $\hat\beta$, wenn
+Welche Eigenschaften hat der OLS-Sch√§tzer $\hat\beta$, wenn
 die Annahme verletzt ist?
 
-Der Sch‰tzer $\hat\beta=(X'X)^{-1}X'y$ ist weiterhin unverzerrt, denn
+Der Sch√§tzer $\hat\beta=(X'X)^{-1}X'y$ ist weiterhin unverzerrt, denn
 \begin{align*}
 \hat\beta &= (X'X)^{-1}X'(X\beta+u) \\
 &=(X'X)^{-1}X'X\beta +(X'X)^{-1}X'u \\
@@ -2874,7 +3027,7 @@ E(\hat\beta) &=E(\beta +(X'X)^{-1}X'u) \\
 An keiner Stelle wurde die Annahme B2 verwendet. Das Ergebnis
 gilt also auch, wenn B2 verletzt ist.
 
-‹ber die Kovarianzmatrix von $\hat\beta$ l‰sst sich im allgemeinen
+√úber die Kovarianzmatrix von $\hat\beta$ l√§sst sich im allgemeinen
 Fall recht wenig sagen. Es gilt
 \begin{align*}
 Cov(\hat\beta) &= E((\hat\beta-E(\hat\beta))(\hat\beta-E(\hat\beta))') \\
@@ -2883,21 +3036,21 @@ Cov(\hat\beta) &= E((\hat\beta-E(\hat\beta))(\hat\beta-E(\hat\beta))') \\
 &=(X'X)^{-1}X'E(uu')X(X'X)^{-1} \\
 &=(X'X)^{-1}X'Cov(u) X(X'X)^{-1}.
 \end{align*}
-Falls $Cov(u)=\sigma^2I$ (also im Fall von Homoskedastizit‰t) kann man
-diesen Ausdruck weiter vereinfachen. Im Fall der Heteroskedastizit‰t 
-jedoch nicht. Nur unter bestimmten Annahmen ¸ber die genaue Form
-der Heteroskedastizit‰t w‰ren weitere Umformungen mˆglich.
+Falls $Cov(u)=\sigma^2I$ (also im Fall von Homoskedastizit√§t) kann man
+diesen Ausdruck weiter vereinfachen. Im Fall der Heteroskedastizit√§t 
+jedoch nicht. Nur unter bestimmten Annahmen √ºber die genaue Form
+der Heteroskedastizit√§t w√§ren weitere Umformungen m√∂glich.
 
-Die Normalit‰t von $\hat\beta$ gilt weiterhin, denn $\hat\beta$ ist
+Die Normalit√§t von $\hat\beta$ gilt weiterhin, denn $\hat\beta$ ist
 immer noch eine lineare Funktion der normalverteilten endogenen
 Variable.
 
 Wir betrachten nun das einfache lineare Modell 
 \[ y_t=\alpha+\beta x_t+u_t \]
-und machen nun eine (restriktive und willk¸rliche) Annahme ¸ber die
-Varianz der Stˆrterme:
+und machen nun eine (restriktive und willk√ºrliche) Annahme √ºber die
+Varianz der St√∂rterme:
 \[ \sigma_t^2=\sigma^2 x_t. \]
-Wir gehen also davon aus, dass die Stˆrterme umso st‰rker streuen,
+Wir gehen also davon aus, dass die St√∂rterme umso st√§rker streuen,
 je weiter die Beobachtungen vom Zentrum entfernt sind.
 
 Das Modell wird nun wie folgt transformiert:
@@ -2928,12 +3081,12 @@ Cov(u_{s}^{\ast },u_{t}^{\ast}) &= Cov\left(
 &= \frac{1}{\sqrt{x_{s}}\sqrt{x_{t}}}Cov(u_s,u_t) \\
 &= 0.
 \end{align*}
-Auﬂerdem sind die transformierten Stˆrterme normalverteilt,
+Au√üerdem sind die transformierten St√∂rterme normalverteilt,
 da sie lineare Transformationen der $u_{t}$ sind.
 
-Das transformierte Modell erf¸llt also alle A-, B- und C-Annahmen!
+Das transformierte Modell erf√ºllt also alle A-, B- und C-Annahmen!
 
-KQ-Sch‰tzung des transformierten Modells:
+KQ-Sch√§tzung des transformierten Modells:
 \begin{align*}
 \hat\alpha^{\ast} &= \frac{S_{z^{\ast }y^{\ast }}}{S_{z^{\ast}z^{\ast }}} \\
 \hat\beta^{\ast } &= \frac{S_{x^{\ast }y^{\ast }}}{S_{x^{\ast}x^{\ast }}} \\
@@ -2943,26 +3096,26 @@ KQ-Sch‰tzung des transformierten Modells:
 {\sum \frac{1}{x_{t}}\left( x_{t}-\overline{x}\right)^{2}}
 \end{align*}
 
-Die ¸blichen Sch‰tzer
+Die √ºblichen Sch√§tzer
 \begin{align*}
 \hat{\beta} &=\frac{\sum \left( x_{t}-\overline{x}\right) 
 	\left( y_{t}-\overline{y}\right) }{\sum \left( x_{t}-\overline{x}\right) ^{2}} \\
 \hat{\alpha} &=\bar{y}-\hat{\beta}\bar{x}
 \end{align*}
-sind anders und daher ineffizient (Gauﬂ-Markov-Theorem),
+sind anders und daher ineffizient (Gau√ü-Markov-Theorem),
 
-Die Stˆrtermvarianz 
+Die St√∂rtermvarianz 
 \[ Var(u_t^*)=\sigma^2 \]
-kann man unverzerrt sch‰tzen durch
+kann man unverzerrt sch√§tzen durch
 \[ \hat{\sigma}^2=\frac{S_{_{\hat{u}^{\ast }\hat{u}^{\ast }}}}{T-2}. \] 
 
 Aus $\sigma_t^2=\sigma^2 x_t$ folgt, dass 
 \[ \hat{\sigma}_{t}^{2}=\hat{\sigma}^{2}\cdot x_{t} \]
-ein unverzerrter Sch‰tzer von $Var(u_{t})$ ist.
+ein unverzerrter Sch√§tzer von $Var(u_{t})$ ist.
 
 Herleitung der Varianz von $\hat\beta$: Betrachte das einfache lineare Modell
 \[ y_{t}=\alpha +\beta x_{t}+u_{t} \]
-mit $Var(u_{t})=\sigma ^{2}x_t$. Der KQ-Sch‰tzer von $\beta $ ist
+mit $Var(u_{t})=\sigma ^{2}x_t$. Der KQ-Sch√§tzer von $\beta $ ist
 \begin{align*}
 \hat\beta &=\frac{S_{xy}}{S_{xx}} \\
 &=\frac{\sum \left( x_{t}-\bar{x}\right) y_{t}}{\sum \left( x_{t}-\bar{x}\right) ^{2}} \\
@@ -2982,33 +3135,33 @@ Var(\hat\beta) &=Var\left( \frac{\sum \left( x_{t}-\bar{x}\right) u_{t}}
 &=\frac{\sum \left( x_{t}-\bar{x}\right) ^{2}\sigma _{t}^{2}}{S_{xx}^{2}}.
 \end{align*}
 
-Achtung: Die ¸blichen Formeln
+Achtung: Die √ºblichen Formeln
 \[ Var(\hat{\beta})=\frac{\sigma ^{2}}{S_{xx}} \]
 und 
 \[ \hat{\sigma}^{2}=\frac{S_{\hat{u}\hat{u}}}{T-2} \]
-sind unter Heteroskedastizit‰t falsch!
+sind unter Heteroskedastizit√§t falsch!
 
-Wie kann man aufdecken, ob Heteroskedastizit‰t ein Problem sein kˆnnte?
-Wir behandeln zwei Testverfahren, n‰mlich den Goldfeld-Quandt-Test und 
+Wie kann man aufdecken, ob Heteroskedastizit√§t ein Problem sein k√∂nnte?
+Wir behandeln zwei Testverfahren, n√§mlich den Goldfeld-Quandt-Test und 
 den White-Test. Wir starten mit dem Goldfeld-Quandt-Test.
 
 \subsection*{Goldfeld-Quandt-Test}
 
 \begin{itemize}
 	\item Schritt 1: Ordne die Beobachtungen aufsteigend nach den $x_t$-Werten
-	(oder nach einer anderen ``Heteroskedastizit‰tsquelle'')
+	(oder nach einer anderen ``Heteroskedastizit√§tsquelle'')
 	\item Schritt 2: Definiere zwei Gruppen:
 	\begin{itemize}
 		\item $T_{1}$ Beobachtungen mit niedrigen $x_{t}$-Werten;
 		\item $T_{2}$ Beobachtungen mit hohen $x_{t}$-Werten.
 	\end{itemize}
-	Oft w‰hlt man so, dass $T_{1}+T_{2}=T$.
+	Oft w√§hlt man so, dass $T_{1}+T_{2}=T$.
 	\item Schritt 3: Wir nehmen an, dass $\sigma _{2}^{2}>\sigma _{1}^{2}$; also
 	\begin{eqnarray*}
 		H_{0} &:&\sigma _{2}^{2}=\sigma _{1}^{2} \\
 		H_{1} &:&\sigma _{2}^{2}>\sigma _{1}^{2}
 	\end{eqnarray*}
-	\item Schritt 4: Separate KQ-Sch‰tzung f¸r beide Gruppen; berechne $S_{\hat{u}\hat{u}}^{1}$
+	\item Schritt 4: Separate KQ-Sch√§tzung f√ºr beide Gruppen; berechne $S_{\hat{u}\hat{u}}^{1}$
 	und $S_{\hat{u}\hat{u}}^2$.
 	\item Schritt 5: Goldfeld und Quandt (1972) zeigen, dass unter $H_{0}$ 
 	\[ F=\frac{S_{\hat{u}\hat{u}}^2/(T_2-K-1)}{S_{\hat{u}\hat{u}}^1/(T_1-K-1)} \]
@@ -3030,44 +3183,44 @@ Numerische Illustration: rentexample.R
 	\item Also gilt
 	\[ F=\frac{4.666/5}{0.246/3}=11.4 \]
 	\item Auf dem Niveau $a=5\%$ ist der kritische Wert 9.01. Die Nullhypothese
-	wird also verworfen. Die Daten sprechen f¸r Heteroskedastizit‰t.
+	wird also verworfen. Die Daten sprechen f√ºr Heteroskedastizit√§t.
 \end{enumerate}
 
 \subsection*{White test}
 
 Der Goldfeld-Quandt-Test ist dann gut anwendbar, wenn man eine einzelne
-Variable als "`Treiber"' f¸r die Heteroskedastizit‰t identifizieren kann.
-Wenn man keine konkrete Vorstellung von der Form der Heteroskedastizit‰t
+Variable als "`Treiber"' f√ºr die Heteroskedastizit√§t identifizieren kann.
+Wenn man keine konkrete Vorstellung von der Form der Heteroskedastizit√§t
 hat, hilft der White-Test weiter. Wir betrachten das lineare Modell
 mit zwei exogenen Variablen,
 \[ y_{t}=\alpha +\beta _{1}x_{1t}+\beta _{2}x_{2t}+u_{t} \]
 
-Der White-Test ist ein LM-Test und wird wie folgt durchgef¸hrt.
+Der White-Test ist ein LM-Test und wird wie folgt durchgef√ºhrt.
 \begin{itemize}
-	\item Schritt 1: $H_{0}$: Homoskedastizit‰t gegen $H_1$: Heteroskedastizit‰t.
+	\item Schritt 1: $H_{0}$: Homoskedastizit√§t gegen $H_1$: Heteroskedastizit√§t.
 	\item Schritt 2: Berechne die KQ-Residuen $\hat{u}_{t}$
-	\item Schritt 3: Sch‰tze die Hilfsregression
+	\item Schritt 3: Sch√§tze die Hilfsregression
 	\[ \hat{u}_t^2 = \gamma_0+\gamma_1 x_{1t}+\gamma_2 x_{2t}
 	+\gamma_3 x_{1t}^2+\gamma_4 x_{2t}^2 +\gamma_5 x_{1t}x_{2t}+v_t. \]
 	\item Schritt 4: Unter $H_{0}$ gilt
 	\[ R^{2}\cdot T\sim \chi_r^2, \]
 	wobei $r$ die Anzahl der Steigungskoeffizienten in der Hilfsregression ist 
 	(in diesem Beispiel also $r=5$).
-	\item Wenn die Teststatistik $T\cdot R^2$ grˆﬂer ist als der kritische Werte
+	\item Wenn die Teststatistik $T\cdot R^2$ gr√∂√üer ist als der kritische Werte
 	der $\chi_r^2$-Verteilung, wird $H_{0}$ verworfen.
 \end{itemize}
 Eine Ablehnung erfolgt, wenn die quadrierten Residuen zumindest teilweise
-durch die exogenen Variablen erkl‰rt werden kˆnnen.
+durch die exogenen Variablen erkl√§rt werden k√∂nnen.
 
 Illustration [rentexample.R]
 
-Was ist zu tun, wenn Heteroskedastizit‰t vorliegt?
+Was ist zu tun, wenn Heteroskedastizit√§t vorliegt?
 
 \begin{itemize}
-	\item Mˆglichkeit 1: Passe die Sch‰tzmethode an $\longrightarrow $ VKQ oder gesch‰tzte VKQ
-	\item Mˆglichkeit 2: Benutze weiterhin die KQ-Methode, aber passe die Berechnung
-	der Standardfehler an $\longrightarrow $ Whites heteroskedastizit‰tskonsistente 
-	Kovarianzmatrixsch‰tzung
+	\item M√∂glichkeit 1: Passe die Sch√§tzmethode an $\longrightarrow $ VKQ oder gesch√§tzte VKQ
+	\item M√∂glichkeit 2: Benutze weiterhin die KQ-Methode, aber passe die Berechnung
+	der Standardfehler an $\longrightarrow $ Whites heteroskedastizit√§tskonsistente 
+	Kovarianzmatrixsch√§tzung
 \end{itemize}
 
 \subsection*{Verallgemeinerte Kleinste-Quadrate-Methode (VKQ)}
@@ -3076,7 +3229,7 @@ Die verallgemeinerte Kleinste-Quadrate-Methode wird auch oft
 generalised least squares method (GLS) genannt.  Ausgangspunkt ist das
 Regressionsmodell
 \[ y=X\beta+u, \]
-wobei wir nun davon ausgehen, dass die Kovarianzmatrix der Stˆrterme
+wobei wir nun davon ausgehen, dass die Kovarianzmatrix der St√∂rterme
 nicht $Cov(u)=\sigma ^{2}I$ ist, sondern 
 \[ Cov(u)=\sigma^2\Omega. \]
 
@@ -3124,7 +3277,7 @@ Py &=PX\beta+Pu \\
 y^{\ast } &=X^{\ast }\beta+u^{\ast }.
 \end{align*}
 
-Eigenschaften des transformierten Stˆrtermvektors:
+Eigenschaften des transformierten St√∂rtermvektors:
 Der Erwartungswertvektor ist
 \begin{align*}
 E(u^{\ast }) &=E(Pu) \\
@@ -3139,25 +3292,25 @@ V(u^{\ast }) &=E(u^{\ast }u^{\ast \prime }) \\
 &=P\sigma ^{2}\Omega P' \\
 &=\sigma ^{2}I.
 \end{align*}
-Auﬂerdem ist der Vektor $u^*$ normalverteilt, da er eine lineare Transformation
-von normalverteilten Grˆﬂen ist (n‰mlich $Pu$).
+Au√üerdem ist der Vektor $u^*$ normalverteilt, da er eine lineare Transformation
+von normalverteilten Gr√∂√üen ist (n√§mlich $Pu$).
 
-Folgerung: Das transformierte Modell erf¸llt alle A-, B- und C-Annahmen!
+Folgerung: Das transformierte Modell erf√ºllt alle A-, B- und C-Annahmen!
 
-Der GLS-Sch‰tzer ist der OLS-Sch‰tzer des transformierten Modells,
+Der GLS-Sch√§tzer ist der OLS-Sch√§tzer des transformierten Modells,
 \begin{align*}
 \hat\beta^{GLS} &=(X^{\ast\prime }X^{\ast })^{-1}X^{\ast\prime }y^{\ast } \\
 &=( X'P'PX) ^{-1}X'P'Py \\
 &=( X'\Omega ^{-1}X) ^{-1}X'\Omega ^{-1}y.
 \end{align*}
 
-Die Kovarianzmatrix des GLS-Sch‰tzers ist
+Die Kovarianzmatrix des GLS-Sch√§tzers ist
 \begin{align*}
 V(\hat\beta^{GLS}) &=\sigma ^{2}(X^{\ast \prime }X^{\ast })^{-1} \\
 &=\sigma^2\left( X'P'PX\right) ^{-1} \\
 &=\sigma^2\left( X'\Omega ^{-1}X\right) ^{-1}.
 \end{align*}
-Vergleich mit der gewˆhnlichen Kovarianzmatrix (im OLS-Fall)
+Vergleich mit der gew√∂hnlichen Kovarianzmatrix (im OLS-Fall)
 \begin{align*}
 V(\hat\beta) &= E\left[ \left( \hat\beta-\beta \right) \left( \hat\beta-\beta \right) '\right] \\
 &=E\left[ \left( X'X\right) ^{-1}X'u\left( \left(X'X\right) ^{-1}X'u\right) '\right] \\
@@ -3166,16 +3319,16 @@ V(\hat\beta) &= E\left[ \left( \hat\beta-\beta \right) \left( \hat\beta-\beta \r
 &=\sigma ^{2}\left( X'X\right) ^{-1}X'\Omega X^{\prime}\left( X'X\right) ^{-1}.
 \end{align*}
 
-Man sch‰tzt $\sigma ^{2}$ durch
+Man sch√§tzt $\sigma ^{2}$ durch
 \[ \hat{\sigma}^{2}=\frac{\hat{u}^{\ast \prime }\hat{u}^{\ast}}{T-K-1}
 =\frac{\hat{u}^{\prime }\Omega^{-1}\hat{u}}{T-K-1}. \]
 
-W¸rde man die Heteroskedastizit‰t ignorieren, w¸rde man mit
+W√ºrde man die Heteroskedastizit√§t ignorieren, w√ºrde man mit
 \begin{align*}
 V(\hat{\beta}) &=\sigma ^{2}(X'X)^{-1} \\
 \hat{\sigma}^{2} &=\frac{\hat{u}^{\prime }\hat{u}}{T-K-1}
 \end{align*}
-rechnen. In diesem Fall w‰ren die Intervallsch‰tzer und die Hypothesentests nicht
+rechnen. In diesem Fall w√§ren die Intervallsch√§tzer und die Hypothesentests nicht
 korrekt.
 
 Was kann man tun, wenn $\Omega$ unbekannt ist?
@@ -3192,39 +3345,39 @@ Beispiel:
 \end{array} \right]. \]
 
 Ansatz: Feasible Generalized Least Squares (FGLS),
-gesch‰tzte verallgemeinerte Kleinste-Quadrate (GVKQ).
+gesch√§tzte verallgemeinerte Kleinste-Quadrate (GVKQ).
 
-Man geht in zwei Stufen vor. Zuerst sch‰tzt man die unbekannten Grˆﬂen
-in $W=\sigma ^{2}\Omega$. Anschlieﬂend ist der
-FGLS-Sch‰tzer 
+Man geht in zwei Stufen vor. Zuerst sch√§tzt man die unbekannten Gr√∂√üen
+in $W=\sigma ^{2}\Omega$. Anschlie√üend ist der
+FGLS-Sch√§tzer 
 \[ \hat{\beta}^{FGLS}=(X'\hat{W}^{-1}X)^{-1}X'\hat{W}^{-1}y. \]
-Die gesch‰tzte Kovarianzmatrix ist dann
+Die gesch√§tzte Kovarianzmatrix ist dann
 \[ \hat{V}(\hat{\beta}^{FGLS})=(X'\hat{W}^{-1}X)^{-1}. \]
 
-Was kann man tun, wenn man ¸berhaupt keine Informationen ¸ber die
-Form der Heteroskedastizit‰t hat?
+Was kann man tun, wenn man √ºberhaupt keine Informationen √ºber die
+Form der Heteroskedastizit√§t hat?
 
-\subsection*{Whites heteroskedastizit‰tskonsistenter Kovarianzmatrixsch‰tzer}
+\subsection*{Whites heteroskedastizit√§tskonsistenter Kovarianzmatrixsch√§tzer}
 
-Davidson und MacKinnon, chap. 5.5. Das ˆkonometrische Modell lautet
+Davidson und MacKinnon, chap. 5.5. Das √∂konometrische Modell lautet
 \[ y=X\beta+u. \]
 Die Kovarianzmatrix sei $V(u)=W$ mit
 \[ W=diag(\sigma_1^2,\ldots ,\sigma_T^2).  \]
-Der OLS-Sch‰tzer
+Der OLS-Sch√§tzer
 \[ \hat{\beta}=(X'X)^{-1}X'y \]
 hat die Kovarianzmatrix
 \[ Cov(\hat\beta)=(X'X)^{-1}X'WX'(X'X)^{-1}. \]
-Eine konsistente Sch‰tzung von $W$ ist nicht mˆglich. 
-White (1980) hat jedoch gezeigt, dass eine konsistente Sch‰tzung von
+Eine konsistente Sch√§tzung von $W$ ist nicht m√∂glich. 
+White (1980) hat jedoch gezeigt, dass eine konsistente Sch√§tzung von
 \begin{align*}
 \Sigma &=\frac{1}{T}X^{\prime }WX \\
 &=\frac{1}{T}\sum_{t=1}^{T}\sigma _{t}^{2}x_{t}x_{t}^{\prime }
 \end{align*}
-mˆglich ist, wobei $x_t$ die $t$-te Zeile der Matrix $X$ ist (als Spaltenvektor geschrieben).
+m√∂glich ist, wobei $x_t$ die $t$-te Zeile der Matrix $X$ ist (als Spaltenvektor geschrieben).
 
-Ein konsistenter Sch‰tzer von $\Sigma$ ist
+Ein konsistenter Sch√§tzer von $\Sigma$ ist
 \[ \hat{\Sigma}=\frac{1}{T}\sum_{t=1}^{T}\hat{u}_t^2 x_t x_t'. \]
-Die gesch‰tzte Kovarianzmatrix ist
+Die gesch√§tzte Kovarianzmatrix ist
 \[ \hat{V}(\hat\beta)=(X'X)^{-1}X'\hat{W}X(X'X)^{-1} \]
 mit
 \[ \hat{W}=\left[ 
@@ -3234,19 +3387,19 @@ mit
 &  & \hat{u}_{T}^{2}%
 \end{array}%
 \right] \]
-Wegen seiner Form nennt man diesen Sch‰tzer auch Sandwich-Sch‰tzer.
+Wegen seiner Form nennt man diesen Sch√§tzer auch Sandwich-Sch√§tzer.
 
 Illustration [rentexample.R]
 
 \section{Autokorrelation}
 
-Annahme B3: Die Stˆrterme sind unkorreliert,
+Annahme B3: Die St√∂rterme sind unkorreliert,
 \[ Cov(u_{t},u_{s})=0 \]
-f¸r alle $t\neq s$.
+f√ºr alle $t\neq s$.
 
 Beispiel: [waterfilter.R]: Die Nachfragefunktion nach Wasserfiltern sei
 \[y_{t}=\alpha +\beta x_{t}+u_{t}, \]
-mit $y_{t}$ verkaufter Menge, $x_{t}$ Preis f¸r die Monate
+mit $y_{t}$ verkaufter Menge, $x_{t}$ Preis f√ºr die Monate
 Januar 2001 bis Dezember 2002.
 
 Wir nehmen an, dass die Autokorrelation folgende Form hat:
@@ -3254,17 +3407,17 @@ Wir nehmen an, dass die Autokorrelation folgende Form hat:
 mit $-1<\rho <1$. Dabei sei
 \[ e_{t}\sim NID(0,\sigma _{e}^{2}) \]
 
-Eigenschaften der Stˆrterme $u_{t}$:
+Eigenschaften der St√∂rterme $u_{t}$:
 
 Der Erwartungswert (von dem wir annehmen, dass er zeitinvariant ist)
-betr‰gt
+betr√§gt
 \begin{align*}
 E(u_{t}) &= E(\rho u_{t-1}+e_{t}) \\
 &=\rho E(u_{t-1}) \\
 E(u_{t}) &=0.
 \end{align*}
 Die Varianz (von der wir ebenfalls annehmen, dass sie zeitinvariant
-ist) betr‰gt
+ist) betr√§gt
 \begin{align*}
 Var(u_{t}) &=Var(\rho u_{t-1}+e_{t}) \\
 &=\rho ^{2}Var(u_{t-1})+\sigma _{e}^{2} \\
@@ -3278,10 +3431,10 @@ Cov(u_{t},u_{t-1}) &=E(u_{t}u_{t-1}) \\
 &=\rho \cdot Var(u_{t})\\
 &=\rho\sigma _{e}^{2}/\left( 1-\rho ^{2}\right)
 \end{align*}
-F¸r hˆhere Ordnung ergibt sich rekursiv
+F√ºr h√∂here Ordnung ergibt sich rekursiv
 \[ Cov(u_{t},u_{t-j}) =\rho ^{j}\left( \frac{\sigma _{e}^{2}}{1-\rho ^{2}} \right). \]
 
-Folgerung: B1, B2 und B4 sind weiterhin erf¸llt. Nur B3 ist verletzt!
+Folgerung: B1, B2 und B4 sind weiterhin erf√ºllt. Nur B3 ist verletzt!
 
 Transformation des Modells:
 
@@ -3291,35 +3444,35 @@ mit
 \[ u_{t}=\rho u_{t-1}+e_{t} \]
 und $e_{t}\sim UN(0,\sigma _{e}^{2})$. Addiert man
 \[ -\rho y_{t-1}=-\rho \alpha -\rho \beta x_{t-1}-\rho u_{t-1}, \]
-so erh‰lt man
+so erh√§lt man
 \begin{align*}
 y_{t}-\rho y_{t-1} &=\alpha -\rho \alpha +\beta x_{t}-\rho \beta x_{t-1}+u_{t}-\rho u_{t-1} \\
 &=\alpha \left( 1-\rho \right) +\beta \left( x_{t}-\rho x_{t-1}\right)+e_{t}\\
 y_{t}^* &= \alpha^* +\beta x_t^*+e_t
 \end{align*}
-Der Stˆrterm des transformierten Modells erf¸llt alle Modellannahmen (insbesondere
-B1 bis B4). Allerding muss man f¸r die Transformation den Wert von $\rho$ kennen.
+Der St√∂rterm des transformierten Modells erf√ºllt alle Modellannahmen (insbesondere
+B1 bis B4). Allerding muss man f√ºr die Transformation den Wert von $\rho$ kennen.
 
-Da die Sch‰tzer f¸r $\alpha$ und $\beta$ des transformierten Modells anders 
-aussehen als die KQ-Sch‰tzer, sind die KQ-Sch‰tzer ineffizient.
-Auﬂerdem sind die ¸blichen KQ-Formeln
+Da die Sch√§tzer f√ºr $\alpha$ und $\beta$ des transformierten Modells anders 
+aussehen als die KQ-Sch√§tzer, sind die KQ-Sch√§tzer ineffizient.
+Au√üerdem sind die √ºblichen KQ-Formeln
 \[ Var(\hat{\beta})=\frac{\sigma ^{2}}{S_{xx}} \]
 und 
 \[ \hat{\sigma}^{2}=\frac{S_{\hat{u}\hat{u}}}{T-2} \]
-nicht korrekt. Die Folgen sind also identisch zum Fall der Heteroskedastizit‰t.
+nicht korrekt. Die Folgen sind also identisch zum Fall der Heteroskedastizit√§t.
 
 Diagnose von Autokorrelation:
 
-Einfachster Weg: Graph der Residuen $\hat{u}_{t}$ ¸ber die Zeit oder Streudiagramm
+Einfachster Weg: Graph der Residuen $\hat{u}_{t}$ √ºber die Zeit oder Streudiagramm
 der Paare $(\hat{u}_{t-1},\hat{u}_{t})$.\marginpar{Beispiel}
 
-Sch‰tzung von $\rho$: Wegen $u_{t}=\rho u_{t-1}+e_{t}$ kann man $\rho $ 
+Sch√§tzung von $\rho$: Wegen $u_{t}=\rho u_{t-1}+e_{t}$ kann man $\rho $ 
 durch die Regression
 \[ \widehat{u}_{t}=\rho \widehat{u}_{t-1}+e_{t}^{\ast } \]
-sch‰tzen. Der KQ-Sch‰tzer lautet
+sch√§tzen. Der KQ-Sch√§tzer lautet
 \[ \hat{\rho}=\frac{\sum_{t=2}^T\widehat{u}_t\widehat{u}_{t-1}}{\sum_{t=2}^T\widehat{u}_{t-1}^2}. \]
 
-Achtung: Wegen der Zweistufigkeit ist der gewˆhnliche $t$-Test nicht g¸ltig.
+Achtung: Wegen der Zweistufigkeit ist der gew√∂hnliche $t$-Test nicht g√ºltig.
 
 \subsection*{Durbin-Watson-Test}
 
@@ -3343,7 +3496,7 @@ d &=\frac{\sum_{t=2}^{T}\left( \widehat{u}_{t}-\widehat{u}_{t-1}\right)^2}
 Also gilt
 \[ \frac{\sum_{t=2}^{T}\widehat{u}_{t}^{2}}{\sum_{t=1}^{T}\widehat{u}_{t}^{2}}
 \approx 1\quad \text{und\quad }\frac{\sum_{t=2}^{T}\widehat{u}_{t-1}^{2}}{\sum_{t=1}^{T}\widehat{u}_{t}^{2}}\approx 1. \]
-Auﬂerdem ist
+Au√üerdem ist
 \[ \frac{\sum_{t=2}^{T}\widehat{u}_{t}\widehat{u}_{t-1}}
 {\sum_{t=1}^{T}\widehat{u}_{t}^{2}}\approx \frac{\sum_{t=2}^{T}\widehat{u}_{t}\widehat{u}_{t-1}}
 {\sum_{t=2}^{T}\widehat{u}_{t-1}^{2}}=\hat{\rho}. \]
@@ -3353,10 +3506,10 @@ Folglich ist
 Schritt 3: Finde den kritischen Wert $d_{a}$ (mit Hilfe von Computersoftware).
 Wenn $d<d_{a}$, wird $H_{0}$ verworfen.
 
-Problem: Der kritische Wert $d_{a}$ h‰ngt von $X$ ab. Wenn die Software den
-tats‰chlichen kritischen Wert $d_{a}$ nicht bestimmen kann, gibt es Tabellen
-f¸r eine Absch‰tzung des kritischen Werts und eine Obergrenze $d_{a}^{H}$ 
-und eine Untergrenze $d_{a}^{L}$ f¸r $d_{a}$.
+Problem: Der kritische Wert $d_{a}$ h√§ngt von $X$ ab. Wenn die Software den
+tats√§chlichen kritischen Wert $d_{a}$ nicht bestimmen kann, gibt es Tabellen
+f√ºr eine Absch√§tzung des kritischen Werts und eine Obergrenze $d_{a}^{H}$ 
+und eine Untergrenze $d_{a}^{L}$ f√ºr $d_{a}$.
 
 Schritt 4: Vergleiche die Teststatistik $d$ mit $d_{a}^{L}$ und $d_{a}^{H}$.
 
@@ -3369,18 +3522,18 @@ Entscheidungregeln:
 
 Nachteile des Durbin-Watson-Tests:
 \begin{itemize}
-	\item In manchen F‰llen ist keine Entscheidung mˆglich.
-	\item Eine verzˆgerte endogene Variable ist nicht erlaubt (dazu sp‰ter mehr).
+	\item In manchen F√§llen ist keine Entscheidung m√∂glich.
+	\item Eine verz√∂gerte endogene Variable ist nicht erlaubt (dazu sp√§ter mehr).
 	\item Der Test ist nur auf $AR(1)$-Prozesse zugeschnitten.
 \end{itemize}
 Es gibt eine Reihe von alternativen Tests auf Autokorrelation, die auch
-in vielen Software-Programmen verf¸gbar sind.
+in vielen Software-Programmen verf√ºgbar sind.
 
 \subsection*{GLS und Autokorrelation}
 
 Im Regressionsmodell
 \[ y=X\beta+u \]
-hat die Kovarianzmatrix der Stˆrterme bei Autokorrelation die Form
+hat die Kovarianzmatrix der St√∂rterme bei Autokorrelation die Form
 $V(u)=\sigma^2\Omega$ mit
 \[ \mathbf{\Omega }=\left[ 
 \begin{array}{cccc}
@@ -3389,8 +3542,8 @@ $V(u)=\sigma^2\Omega$ mit
 \vdots & \vdots & \ddots & \vdots \\ 
 \rho ^{T-1} & \rho ^{T-2} & \ldots & 1%
 \end{array} \right]. \]
-Es gibt eine Matrix $P$, die $P'P=\Omega^{-1}$ erf¸llt. Mit dieser
-Matrix wird das Modell transformiert. Man kann nachpr¸fen, dass
+Es gibt eine Matrix $P$, die $P'P=\Omega^{-1}$ erf√ºllt. Mit dieser
+Matrix wird das Modell transformiert. Man kann nachpr√ºfen, dass
 \[ P=\frac{1}{\sqrt{1-\rho ^{2}}}\left[ 
 \begin{array}{ccccc}
 \sqrt{1-\rho ^{2}} & 0 & 0 & \ldots & 0 \\ 
@@ -3399,43 +3552,43 @@ Matrix wird das Modell transformiert. Man kann nachpr¸fen, dass
 \vdots & \ddots & \ddots & \ddots & \vdots \\ 
 0 & \ldots & 0 & -\rho & 1%
 \end{array}\right]. \]
-Der GLS-Sch‰tzer ist der gleiche wie im Fall der Heteroskedastizit‰t,
+Der GLS-Sch√§tzer ist der gleiche wie im Fall der Heteroskedastizit√§t,
 \[ \hat{\beta}^{GLS}=(X'\Omega^{-1}X)^{-1}X'\Omega^{-1}y \]
 und die Kovarianzmatrix lautet
 \[ V(\hat{\beta}^{GLS})=\sigma ^{2}(X'\Omega^{-1}X)^{-1}. \]
-Als Sch‰tzer f¸r die Varianz der Stˆrterme (bzw. die Skalierung der
-Kovarianzmatrix der Stˆrterme) dient
+Als Sch√§tzer f√ºr die Varianz der St√∂rterme (bzw. die Skalierung der
+Kovarianzmatrix der St√∂rterme) dient
 \[ \hat{\sigma}^{2}=\frac{\hat{u}'\Omega^{-1}\hat{u}}{T-K-1}. \]
-Achtung: GLS ist nicht mˆglich, weil $\rho$ (und damit $P$) unbekannt ist.
+Achtung: GLS ist nicht m√∂glich, weil $\rho$ (und damit $P$) unbekannt ist.
 
-Hildreth-Lu-Ansatz: Definiere ein feines Gitter f¸r $\rho $ ¸ber das Intervall 
-$[-1;1]$; w‰hle das $\rho $, f¸r das $\hat{\sigma}^{2}(1-\rho^2)=\hat{\sigma}_e^2$ minimal ist.
+Hildreth-Lu-Ansatz: Definiere ein feines Gitter f√ºr $\rho $ √ºber das Intervall 
+$[-1;1]$; w√§hle das $\rho $, f√ºr das $\hat{\sigma}^{2}(1-\rho^2)=\hat{\sigma}_e^2$ minimal ist.
 
-Cochrane-Orcutt-Ansatz: Sch‰tze $\hat{\rho}$ aus den OLS-Residuen.
-F¸hre GLS mit $\hat{\rho}$ durch. Iteriere bis die Sch‰tzung konvergiert.
+Cochrane-Orcutt-Ansatz: Sch√§tze $\hat{\rho}$ aus den OLS-Residuen.
+F√ºhre GLS mit $\hat{\rho}$ durch. Iteriere bis die Sch√§tzung konvergiert.
 
-Es ist auch mˆglich, eine Kovarianzmatrixsch‰tzung durchzuf¸hren, die sowohl heteroskedastizit‰tskonsistent
+Es ist auch m√∂glich, eine Kovarianzmatrixsch√§tzung durchzuf√ºhren, die sowohl heteroskedastizit√§tskonsistent
 als auch autokorrelationskonsistent ist (Newey and West, Econometrica 1987). Die 
-Vorgehensweise ist ‰hnlich zum HC-Sch‰tzer nach White.
+Vorgehensweise ist √§hnlich zum HC-Sch√§tzer nach White.
 
-\section{Nicht normalverteilt Stˆrterme}
+\section{Nicht normalverteilt St√∂rterme}
 
-Annahme B4: Die Stˆrterme sind normalverteilt.
+Annahme B4: Die St√∂rterme sind normalverteilt.
 
-Wir haben diese Annahme gebraucht, um die Normalverteilt der Sch‰tzer
+Wir haben diese Annahme gebraucht, um die Normalverteilt der Sch√§tzer
 $\hat\beta$ herzuleiten, um die $t$-Verteilung der Teststatistik
 des $t$-Tests herzuleiten und um die $F$-Verteilung der
 Teststatistik des $F$-Tests herzuleiten.
 
-Erinnerung: Der Sch‰tzer $\hat{\beta}$ ist ein linearer Sch‰tzer,
+Erinnerung: Der Sch√§tzer $\hat{\beta}$ ist ein linearer Sch√§tzer,
 \begin{eqnarray*}
 	\hat{\beta} &=&(X'X)^{-1}X'y \\
 	&=&Cy
 \end{eqnarray*}
-F¸r eine einzelne Komponente von $\hat{\beta}$ bedeutet das,
+F√ºr eine einzelne Komponente von $\hat{\beta}$ bedeutet das,
 \[ \hat{\beta}_{k}=\sum_{t=1}^{T}c_{kt}y_t. \]
-Die Zufallsvariablen $y_{1},\ldots ,y_{T}$ sind stochastisch unabh‰ngig.
-Folglich ist $\hat{\beta}_{k}$ die Summe von unabh‰ngigen (aber nicht
+Die Zufallsvariablen $y_{1},\ldots ,y_{T}$ sind stochastisch unabh√§ngig.
+Folglich ist $\hat{\beta}_{k}$ die Summe von unabh√§ngigen (aber nicht
 unbedingt identisch verteilten) Zufallsvariablen.
 
 Zentraler Grenzwertsatz: Die Summe von vielen i.i.d. Zufallsvariablen ist
@@ -3446,33 +3599,33 @@ verteilt sind.
 Ferner gilt: Der Zufallsvektor $\hat{\beta}$ ist approximativ multivariat
 normalverteilt,
 \[ \hat{\beta}\overset{appr}{\sim }N\left(\beta,\sigma^2(X'X)^{-1}\right) \]
-F¸r die approximative Normalit‰t m¸ssen einige (schwache) 
-Regularit‰tsbedingungen erf¸llt sein. Die Normalit‰t kann unter Umst‰nden
-nicht gelten (aber gewˆhnlich tut sie es).
+F√ºr die approximative Normalit√§t m√ºssen einige (schwache) 
+Regularit√§tsbedingungen erf√ºllt sein. Die Normalit√§t kann unter Umst√§nden
+nicht gelten (aber gew√∂hnlich tut sie es).
 
 Simulation [b4.R]: Trinkgeldbeispiel (aus dem letzten Semester):
 \[ y_{t}=0.5+0.1\cdot x_{t}+u_{t} \]
-erf¸lle alle A-, B-, C-Annahmen auﬂer B4.
-Wir nehmen an, dass die Stˆrterme die Dichtefunktion
+erf√ºlle alle A-, B-, C-Annahmen au√üer B4.
+Wir nehmen an, dass die St√∂rterme die Dichtefunktion
 \[ f_{u_{t}}(u) =\exp(-(u+1)) \]
 haben.
 
 Wegen
 \[ \hat{\beta}\overset{appr}{\sim }N\left(\beta,\sigma^2(X'X)^{-1}\right) \]
-gilt f¸r eine einzelne Komponente $\hat{\beta}_{k}$
+gilt f√ºr eine einzelne Komponente $\hat{\beta}_{k}$
 \[ \frac{\hat{\beta}_{k}-\beta _{k}}{SE(\hat{\beta}_{k})}\overset{d}{\longrightarrow }U\sim N(0,1) \]
-f¸r $k=1,\ldots ,K$.
+f√ºr $k=1,\ldots ,K$.
 
-Folglich sind Konfidenzintervalle f¸r $t$-Tests asymptotisch g¸ltig
+Folglich sind Konfidenzintervalle f√ºr $t$-Tests asymptotisch g√ºltig
 (man benutzt die Quantile der $N(0,1)$ anstelle der $t$-Verteilung).
-Auch die $F$-Tests sind asymptotisch g¸ltig (sie konvergieren gegen die
+Auch die $F$-Tests sind asymptotisch g√ºltig (sie konvergieren gegen die
 $\chi^2$-Verteilung).
 
 \section*{Stochastische Konvergenz}
 
 Definition: Die reelle Folge $\{a_{n}\}_{n\in \mathbb{N}}$
-konvergiert gegen ihren Limes $a$, wenn f¸r jedes (beliebig kleine) $\varepsilon >0$
-ein $N(\varepsilon)$ existiert, so dass $|a_{n}-a|<\varepsilon $ f¸r
+konvergiert gegen ihren Limes $a$, wenn f√ºr jedes (beliebig kleine) $\varepsilon >0$
+ein $N(\varepsilon)$ existiert, so dass $|a_{n}-a|<\varepsilon $ f√ºr
 alle $n\geq N(\varepsilon)$.
 
 Notation: $\lim_{n\rightarrow \infty}a_{n}=a$ oder $a_{n}\rightarrow a$.
@@ -3490,16 +3643,16 @@ Beispiel: Graph der konvergenten Folge $(n^{2}+n+6)/(3n^{2}-2n+2)$
 Fragen:
 \begin{itemize}
 	\item Wie kann man die Idee von Konvergenz auf Folgen von
-	Zufallsvariablen ¸bertragen?
+	Zufallsvariablen √ºbertragen?
 	\item Was ist eine Folge von Zufallsvariablen?
 	\item Welche Folgen von Zufallsvariablen treten in der
-	÷konometrie typischerweise auf?
+	√ñkonometrie typischerweise auf?
 \end{itemize}
 
 Definition: Seien $X_{1},X_{2},\ldots $ Zufallsvariablen
 \[ X_i:\Omega \rightarrow \mathbb{R}. \]
 Wir nennen $X_{1},X_{2},\ldots $ eine Folge von Zufallsvariablen.
-$X_{1},X_{2},\ldots $ sind (abz‰hlbar unendlich viele) multivariate
+$X_{1},X_{2},\ldots $ sind (abz√§hlbar unendlich viele) multivariate
 Zufallsvariable.
 
 Formal handelt es sich um eine Folge von Funktionen
@@ -3515,7 +3668,7 @@ Notation:
 	X_{n} &\overset{a.s.}{\rightarrow }&X
 \end{eqnarray*}
 
-Diese Art von Konvergenz spielt in der ÷konometrie meist keine groﬂe Rolle.
+Diese Art von Konvergenz spielt in der √ñkonometrie meist keine gro√üe Rolle.
 
 Definition: Die Folge $X_{1},X_{2},\ldots $ konvergiert \emph{nach Wahrscheinlichkeit (in probability)}
 gegen eine Zufallsvariable $X$, wenn
@@ -3527,7 +3680,7 @@ Notation:
 	\textrm{plim }X_{n} &=&X
 \end{eqnarray*}
 
-Die Art von Konvergenz spielt in der ÷konometrie eine sehr wichtige Rolle.
+Die Art von Konvergenz spielt in der √ñkonometrie eine sehr wichtige Rolle.
 
 Spezialfall: Konvergenz nach Wahrscheinlichkeit gegen eine Konstante $a$ 
 liegt vor wenn, 
@@ -3539,13 +3692,13 @@ Notation:
 	\textrm{plim }X_{n} &=&a
 \end{eqnarray*}
 
-Dies ist der Fall, den wir in der ÷konometrie am h‰ufigsten benˆtigen.
+Dies ist der Fall, den wir in der √ñkonometrie am h√§ufigsten ben√∂tigen.
 
 Definition: Die Folge $X_{1},X_{2},\ldots $ (mit den Verteilungsfunktionen
 $F_{1},F_{2},\ldots $) konvergiert \emph{nach Verteilung (in distribution, in law)}
 gegen eine Zufallsvariable $X$ (mit Verteilungsfunktion $F$), wenn
 \[ \lim_{n\rightarrow \infty }F_{n}(x)=F(x) \]
-f¸r alle $x\in \mathbb{R}$, an denen $F(x)$ stetig ist.
+f√ºr alle $x\in \mathbb{R}$, an denen $F(x)$ stetig ist.
 
 Notation:
 \[ X_{n}\overset{d}{\rightarrow }X \]
@@ -3558,42 +3711,42 @@ Beziehungen zwischen den Arten von Konvergenz.
 \Rightarrow \quad X_{n}\overset{p}{\rightarrow }X\quad 
 \Rightarrow \quad X_{n}\overset{d}{\rightarrow }X. \]
 
-\section*{Grenzwerts‰tze}
+\section*{Grenzwerts√§tze}
 
-Es gibt zwei wichtige Klassen von Grenzwerts‰tzen, n‰mlich zum einen
-die Gesetze der groﬂen Zahlen (laws of large numbers) und zum anderen
-die zentralen Grenzwerts‰tze (central limit theorems).
+Es gibt zwei wichtige Klassen von Grenzwerts√§tzen, n√§mlich zum einen
+die Gesetze der gro√üen Zahlen (laws of large numbers) und zum anderen
+die zentralen Grenzwerts√§tze (central limit theorems).
 
 Sei $X_{1},X_{2},\ldots $ eine Folge von Zufallsvariablen.
 Definiere eine neue Folge $\bar{X}_{1},\bar{X}_{2},\ldots $ mit
 \[ \bar{X}_{n}=\frac{1}{n}\sum_{i=1}^{n}X_{i}. \]
 
-Starkes Gesetz der groﬂen Zahl:
+Starkes Gesetz der gro√üen Zahl:
 Sei $X_{1},X_{2},\ldots $ eine Folge von Zufallsvariablen mit
-$\mu _{i}=E(X_{i})<\infty $ und $Var(X_{i})<\infty $ f¸r $i=1,2,\ldots $
+$\mu _{i}=E(X_{i})<\infty $ und $Var(X_{i})<\infty $ f√ºr $i=1,2,\ldots $
 Wenn $\sum_{k=1}^{\infty }Var(X_{k})/k^{2}<\infty ,$ dann gilt
 \[ P\left( \lim_{n\rightarrow \infty }\left( \bar{X}_{n}-\frac{1}{n}%
 \sum_{i=1}^{n}\mu _{i}\right) =0\right) =1. \]
 
 Spezialfall: i.i.d.-Folge, $\bar{X}_{n}\overset{f.s.}{\rightarrow }\mu$.
 
-Schwaches Gesetz der groﬂen Zahl (Chebyshev):
-Sei $X_{1},X_{2},\ldots $ eine Folge von unabh‰ngigen Zufallsvariablen
+Schwaches Gesetz der gro√üen Zahl (Chebyshev):
+Sei $X_{1},X_{2},\ldots $ eine Folge von unabh√§ngigen Zufallsvariablen
 mit $\mu _{i}=E(X_{i})<\infty $ und $Var(X_{i})<c<\infty $. Dann ist
 \[ \lim_{n\rightarrow \infty }P\left( \left\vert \bar{X}_{n}-\frac{1}{n}%
 \sum_{i=1}^{n}\mu _{i}\right\vert <\varepsilon \right) =1. \]
 
 Spezialfall: i.i.d.-Folge, $\textrm{plim }\bar{X}_{n}=\mu $.
 
-Schwaches Gesetz der groﬂen Zahl (Khinchin):
+Schwaches Gesetz der gro√üen Zahl (Khinchin):
 Sei $X_{1},X_{2},\ldots $ eine Folge von i.i.d. Zufallsvariablen mit 
 $E(X_{i})=\mu$. Dann gilt:
 \[ \lim_{n\rightarrow \infty }P\left( \left\vert \bar{X}_{n}-\mu \right\vert
 <\varepsilon \right) =1 .\]
 
-Es gibt auch Gesetze der groﬂen Zahl f¸r stochastische Prozesse, 
-z.B. f¸r Martingaldifferenzenfolgen. Die Gesetze der groﬂen Zahl
-kˆnnen leicht auf den multivariaten Fall ¸bertragen werden.
+Es gibt auch Gesetze der gro√üen Zahl f√ºr stochastische Prozesse, 
+z.B. f√ºr Martingaldifferenzenfolgen. Die Gesetze der gro√üen Zahl
+k√∂nnen leicht auf den multivariaten Fall √ºbertragen werden.
 
 
 Zentraler Grenzwertsatz:
@@ -3603,8 +3756,8 @@ Betrachte die Folge der standardisierten kumulativen Summen
 \[ Z_{n}=\frac{S_{n}-E(S_{n})}{\sqrt{Var(S_{n})}}\qquad \text{mit\quad }
 S_{n}=\sum_{i=1}^{n}X_{i} \]
 
-Wie ist $Z_{n}$ f¸r $n\rightarrow \infty $ verteilt?
-Wir machen nur wenige Annahmen ¸ber die Verteilung der $X_{i}$s.
+Wie ist $Z_{n}$ f√ºr $n\rightarrow \infty $ verteilt?
+Wir machen nur wenige Annahmen √ºber die Verteilung der $X_{i}$s.
 
 ZGS (Lindeberg-Levy):
 
@@ -3619,9 +3772,9 @@ Konvergenz nach Verteilung: $Z_{n}\overset{d}{\rightarrow }Z\sim N(0,1)$.
 
 ZGS (Liapunov):
 
-Sei $X_{1},X_{2},\ldots $ eine Folge von unabh‰ngigen Zufallsvariablen
+Sei $X_{1},X_{2},\ldots $ eine Folge von unabh√§ngigen Zufallsvariablen
 mit $E(X_{i})=\mu _{i}$, $Var(X_{i})=\sigma _{i}^{2}<\infty $,
-und $E(|X_{i}|^{2+\delta })<\infty $ f¸r (beliebig kleines) $\delta >0$.
+und $E(|X_{i}|^{2+\delta })<\infty $ f√ºr (beliebig kleines) $\delta >0$.
 Definiere $c_{n}=\sqrt{\sum_{i=1}^{n}\sigma _{i}^{2}}$. Wenn
 \[ \lim_{n\rightarrow \infty }\left( \frac{1}{c_{n}^{2+\delta }}%
 \sum_{i=1}^{n}E\left( |X_{i}-\mu _{i}|\right) ^{2+\delta }\right) =0, \]
@@ -3631,15 +3784,15 @@ Bedeutung der Annahme: keine einzelne Zufallsvariable dominiert die Summe.
 Jedes $(X_{i}-\mu _{i})/\sigma _{i}$ liefert nur einen kleinen Anteil
 zu der Summe $(S_{n}-E(S_{n}))/c_{n}$.
 
-H‰ufige Notation (im i.i.d.\ Fall):
+H√§ufige Notation (im i.i.d.\ Fall):
 \begin{align*}
 S_{n}&\overset{appr}{\sim }N(n\mu ,n\sigma ^{2}) \\
 \bar{X}_{n}&\overset{appr}{\sim }N(\mu ,\sigma ^{2}/n)
 \end{align*}
 
-Wir kˆnnen die Summe als normalverteilt betrachten (wenn $n$ groﬂ genug ist).
+Wir k√∂nnen die Summe als normalverteilt betrachten (wenn $n$ gro√ü genug ist).
 
-N¸tzliche Rechenregeln f¸r stochastische Konvergenz:
+N√ºtzliche Rechenregeln f√ºr stochastische Konvergenz:
 Wenn $\textrm{plim }X_{n}=a$ und $\textrm{plim }Y_{n}=b$, dann gilt
 \begin{align*}
 \textrm{plim }(X_{n}\pm Y_{n}) &= a\pm b \\
@@ -3660,11 +3813,11 @@ X_{n}+Y_{n}&\overset{d}{\rightarrow }a+Z \\
 X_{n}Y_{n}&\overset{d}{\rightarrow }aZ
 \end{align*}
 
-Cram\'{e}rs Theorem ist sehr n¸tzlich, wenn es unbekannte Parameter in
-einer asymptotischen Verteilung gibt, die man konsistent sch‰tzen kann
-(dazu sp‰ter mehr).
+Cram\'{e}rs Theorem ist sehr n√ºtzlich, wenn es unbekannte Parameter in
+einer asymptotischen Verteilung gibt, die man konsistent sch√§tzen kann
+(dazu sp√§ter mehr).
 
-Beispiel f¸r Cram\'{e}rs Theorem:
+Beispiel f√ºr Cram\'{e}rs Theorem:
 
 Sei $X_{1},\ldots ,X_{n}$ eine Zufallsstichprobe aus $X$; wir wissen, dass
 \begin{align*}
@@ -3682,19 +3835,19 @@ Wegen
 und $\sigma /S_{n}\overset{p}{\rightarrow }1$ ergibt sich
 \[ \sqrt{n}\frac{\bar{X}_{n}-\mu }{S_{n}}\overset{d}{\rightarrow }Z\cdot
 1=Z\sim N\left( 0,1\right). \]
-F¸r $\sqrt{n}(\bar{X}_{n}-\mu )/S_{n}^{\ast }$ geht man analog vor.
+F√ºr $\sqrt{n}(\bar{X}_{n}-\mu )/S_{n}^{\ast }$ geht man analog vor.
 
 \section{Stochastische exogene Variable}
 
 Annahme C1: Die Matrix $X$ ist nicht stochastisch.
 
 Was passiert, wenn $X$ (zumindest einige Elemente) stochastisch ist?
-Wir unterscheiden drei F‰lle:
+Wir unterscheiden drei F√§lle:
 
 \begin{enumerate}
-	\item $X$ und $u$ sind stochastisch unabh‰ngig.
-	\item Kontempor‰re Unkorreliertheit: $Cov(x_{kt},u_{t})=0$ f¸r alle $t,k$
-	\item $X$ und $u$ sind kontempor‰r korreliert.
+	\item $X$ und $u$ sind stochastisch unabh√§ngig.
+	\item Kontempor√§re Unkorreliertheit: $Cov(x_{kt},u_{t})=0$ f√ºr alle $t,k$
+	\item $X$ und $u$ sind kontempor√§r korreliert.
 \end{enumerate}
 
 Exkurs zu bedingten Erwartungen und Erwartungswerten
@@ -3713,35 +3866,35 @@ Die bedingte Erwartung von $X$ gegeben $Y$,
 \[ E(X|Y), \]
 ist eine Zufallsvariable mit der Realisation $E(X|Y=y)$ wenn $Y=y$ ist.
 
-Der bedingte Erwartungswert $E(X|Y=y)$ ist eine reelle Zahl (f¸r gegebenes $y$).
+Der bedingte Erwartungswert $E(X|Y=y)$ ist eine reelle Zahl (f√ºr gegebenes $y$).
 Die bedingte Erwartung $E(X|Y)$ ist eine Zufallsvariable.
 
-N¸tzliche Rechenregeln f¸r bedingte Erwartungen:
+N√ºtzliche Rechenregeln f√ºr bedingte Erwartungen:
 
 \begin{enumerate}
 	\item Gesetz der iterierten Erwartung (law of iterated expectations): 
 	\[ E(E(X|Y)) =E(X) \]
-	\item Unabh‰ngigkeit: Wenn $X$ und $Y$ unabh‰ngig sind, dann gilt
+	\item Unabh√§ngigkeit: Wenn $X$ und $Y$ unabh√§ngig sind, dann gilt
 	\[ E(X|Y) =E(X) \]
-	\item Linearit‰t: F¸r $a_{1},a_{2}\in \mathbb{R}$, gilt
+	\item Linearit√§t: F√ºr $a_{1},a_{2}\in \mathbb{R}$, gilt
 	\[ E(a_{1}X_{1}+a_{2}X_{2}|Y) =a_{1}E(X_{1}|Y)+a_{2}E(X_{2}|Y) \]
-	\item Bedingte Zufallsvariablen kˆnnen wir Konstanten behandelt werden,
+	\item Bedingte Zufallsvariablen k√∂nnen wir Konstanten behandelt werden,
 	\[ E(f(X)g(Y)|Y) =g(Y)E(f(X)|Y) \]
 \end{enumerate}
 
 \subsection*{Stochastische exogene Variable, Fall 1}
 
 Wir betrachten das Modell $y=X\beta+u$ mit $X$ und $u$ stochastisch 
-unabh‰ngig.
+unabh√§ngig.
 
-Die Sch‰tzer $\hat{\beta}$ und $\hat{\sigma}^{2}$ sind weiterhin unverzerrt,
+Die Sch√§tzer $\hat{\beta}$ und $\hat{\sigma}^{2}$ sind weiterhin unverzerrt,
 \begin{align*}
 \hat\beta &=\beta +(X'X)^{-1}X'u \\
 E(\hat\beta) &=\beta +E\left( \left( X'X\right) ^{-1}X^{\prime}\right) E\left( u\right) \\
 &=\beta.
 \end{align*}
 
-Die Varianz der Stˆrterme wird gesch‰tzt durch
+Die Varianz der St√∂rterme wird gesch√§tzt durch
 \begin{align*}
 \hat{\sigma}^{2} &=\hat{u}'\hat{u}/(T-K-1) \\
 E(\hat{\sigma}^{2}) &=E\left[ E\left( \hat{\sigma}^{2}|X\right) \right] \\
@@ -3761,7 +3914,7 @@ V(\hat\beta) &=E\left( \left( \hat\beta-\beta \right) \left( \hat\beta-\beta \ri
 &=\sigma ^{2}E\left[ \left( X'X\right) ^{-1}\right].
 \end{align*}
 
-Ein unverzerrter Sch‰tzer dieser Kovarianzmatrix ist
+Ein unverzerrter Sch√§tzer dieser Kovarianzmatrix ist
 \begin{align*}
 \hat{V}(\hat\beta) &=\hat{\sigma}^{2}\left( X^{\prime}X\right) ^{-1} \\
 E(\hat{V}(\hat\beta)) &=E\left( \hat{\sigma}^{2}\left( X'X\right) ^{-1}\right) \\
@@ -3772,13 +3925,13 @@ E(\hat{V}(\hat\beta)) &=E\left( \hat{\sigma}^{2}\left( X'X\right) ^{-1}\right) \
 &=V(\hat\beta).
 \end{align*}
 
-Der Sch‰tzer $\hat\beta$ ist konsistent, denn
+Der Sch√§tzer $\hat\beta$ ist konsistent, denn
 \begin{align*}
 \textrm{plim }\hat\beta &=\textrm{plim}\left[ \beta +\left( X^{\prime}X\right) ^{-1}X'u\right] \\
 &=\textrm{plim}\left( \beta \right) +\textrm{plim}\left( \left( X^{\prime}X\right) ^{-1}X'u\right) \\
 &=\beta +\textrm{plim}\left( \left( \frac{X'X}{T}\right) ^{-1}\frac{X'u}{T}\right)
 \end{align*}
-Wir brauchen nun zus‰tzliche Annahmen. Wir nehmen an, dass
+Wir brauchen nun zus√§tzliche Annahmen. Wir nehmen an, dass
 \begin{align*}
 \textrm{plim}\left( \frac{X'X}{T}\right) &=Q_{XX} \\
 \lim_{T\rightarrow \infty }E\left( \frac{X'X}{T}\right) &=Q_{XX}
@@ -3789,15 +3942,15 @@ deterministische Trends als auch stochastische Trends).
 Unter dieser Annahme gilt
 \[ \textrm{plim}\left(\frac{X'u}{T}\right) =0. \]
 
-F¸r den Beweis der Konvergenz nach Wahrscheinlichkeit einer 
+F√ºr den Beweis der Konvergenz nach Wahrscheinlichkeit einer 
 Folge von Zufallsvariablen gegen eine Konstante $a$ reicht es aus
 zu zeigen, dass der Erwartungswert gegen $a$ und die Varianz
 gegen 0 konvergieren (diese Bedingung ist nicht notwendig,
 aber hinreichend).
 
-Wegen der Unabh‰ngigkeit gilt
+Wegen der Unabh√§ngigkeit gilt
 \[ E(X'u/T) =E(X)'E(u) /T=0. \]
-Auﬂerdem ist
+Au√üerdem ist
 \begin{align*}
 V\left( X'u/T\right) &=\frac{1}{T^{2}}E\left( X^{\prime}u u'X\right) \\
 &=\frac{1}{T^{2}}E\left( E\left( X'u{}u'X|X\right) \right)\\
@@ -3816,7 +3969,7 @@ Damit ist die Konvergenz nach Wahrscheinlichkeit von $X'u/T$ gegen
 &=Q_{XX}^{-1}\cdot 0 \\
 &=0.
 \end{align*}
-Daraus folgt, dass $\hat\beta$ ein konsistenter Sch‰tzer f¸r $\beta$ ist.
+Daraus folgt, dass $\hat\beta$ ein konsistenter Sch√§tzer f√ºr $\beta$ ist.
 
 Wir beweisen nun die Konsistenz von $\hat{\sigma}^{2}=\hat{u}'\hat{u}/(T-K-1)$. 
 Asymptotisch spielt es keine Rolle ob wir durch $T-K-1$ oder $T$ dividieren,
@@ -3837,7 +3990,7 @@ Also
 &=\sigma^2-0\cdot Q_{XX}^{-1}\cdot 0 \\
 &=\sigma^2.
 \end{align*}
-Ein konsistenter Sch‰tzer f¸r $\sigma ^{2}Q_{XX}^{-1}$ ist
+Ein konsistenter Sch√§tzer f√ºr $\sigma ^{2}Q_{XX}^{-1}$ ist
 \begin{align*}
 \textrm{plim }\left( \hat{\sigma}^{2}\left( \frac{X'X}{T}\right)^{-1}\right) 
 &=\textrm{plim }\left( \hat{\sigma}^{2}\right) \textrm{plim }\left( \frac{X'X}{T}\right) ^{-1} \\
@@ -3845,21 +3998,21 @@ Ein konsistenter Sch‰tzer f¸r $\sigma ^{2}Q_{XX}^{-1}$ ist
 \end{align*}
 Da asymptotisch 
 \[ \sqrt{T}\left( \hat\beta-\beta \right) \sim N\left( 0,\sigma^{2}Q_{XX}^{-1}\right), \]
-kˆnnen wir die Verteilung von $\hat\beta$ approximieren durch
+k√∂nnen wir die Verteilung von $\hat\beta$ approximieren durch
 \[ \hat\beta\sim N\left( \beta ,\sigma ^{2}Q_{XX}^{-1}/T\right) .\]
-Ein geeigneter Sch‰tzer f¸r $\sigma _{u}^{2}Q_{XX}^{-1}/T$ ist
+Ein geeigneter Sch√§tzer f√ºr $\sigma _{u}^{2}Q_{XX}^{-1}/T$ ist
 \begin{align*}
 \hat{V}(\hat\beta) &=\hat{\sigma}^{2}\left( X^{\prime}X/T\right) ^{-1}/T \\
 &=\hat{\sigma}^{2}\left( X'X\right) ^{-1}.
 \end{align*}
-Also ‰ndert sich letztlich nichts! Wenn $X$ und $u$ stochastisch unabh‰ngig
-sind, kˆnnen wir alle Methoden weiterhin anwenden.
+Also √§ndert sich letztlich nichts! Wenn $X$ und $u$ stochastisch unabh√§ngig
+sind, k√∂nnen wir alle Methoden weiterhin anwenden.
 
 \subsection*{Stochastische exogene Variable, Fall 2}
 
-Im Fall 2 sind der Stˆrtermvektor und die Matrix der exogenen Variablen
-kontempor‰r unkorreliert, aber sie kˆnnten ¸ber die Zeit hinweg
-korreliert sein. Typischer Fall: Verzˆgerte endogene Variable als Regressor.
+Im Fall 2 sind der St√∂rtermvektor und die Matrix der exogenen Variablen
+kontempor√§r unkorreliert, aber sie k√∂nnten √ºber die Zeit hinweg
+korreliert sein. Typischer Fall: Verz√∂gerte endogene Variable als Regressor.
 
 Die Unverzerrtheit geht in diesem Fall verloren, aber die Konsistenz und
 die asymptotische Normalverteilung bleiben weiterhin erhalten.
@@ -3867,7 +4020,7 @@ die asymptotische Normalverteilung bleiben weiterhin erhalten.
 Um die Konsistenz zu beweisen, geht man praktisch genauso vor wie in
 Fall 1. Zu zeigen ist insbesondere, dass
 \[ \textrm{plim }\left( \frac{X'u}{T}\right) =0 \]
-auch gilt, wenn $X$ und $u$ nicht unabh‰ngig sind. Betrachte den
+auch gilt, wenn $X$ und $u$ nicht unabh√§ngig sind. Betrachte den
 Zufallsvektor $X'u/T$ elementweise,
 \[ X'u/T=\left[ 
 \begin{array}{c}
@@ -3877,22 +4030,22 @@ Zufallsvektor $X'u/T$ elementweise,
 \frac{1}{T}\sum x_{Kt}u_{t}
 \end{array}
 \right]. \]
-Wenn ein Gesetz der groﬂen Zahl gilt (und das nehmen wir einfach an), dann ist
+Wenn ein Gesetz der gro√üen Zahl gilt (und das nehmen wir einfach an), dann ist
 \[ \textrm{plim }\frac{1}{T}\sum x_{kt}u_{t}=E(x_{k}u). \]
-Wegen der kontempor‰ren Unkorreliertheit ist $E(x_{k}u)=E(x_{k})E(u)=0$.
+Wegen der kontempor√§ren Unkorreliertheit ist $E(x_{k}u)=E(x_{k})E(u)=0$.
 Damit ergibt sich das Resultat unmittelbar.
 
-Schlussfolgerung: Wenn kontempor‰re Korrelation vorliegt, kommt es kaum
-zu Problemen, wenn die Stichprobe nur groﬂ genug ist.
+Schlussfolgerung: Wenn kontempor√§re Korrelation vorliegt, kommt es kaum
+zu Problemen, wenn die Stichprobe nur gro√ü genug ist.
 
 \subsection*{Stochastische exogene Variable, Fall 3}
 
-In diesem Fall sind der Stˆrterm und die exogenen Variablen auch 
-kontempor‰r miteinander korreliert.
+In diesem Fall sind der St√∂rterm und die exogenen Variablen auch 
+kontempor√§r miteinander korreliert.
 
-Graphisches Beispiel: Streudiagramm mit korrelierten Stˆrtermen.
+Graphisches Beispiel: Streudiagramm mit korrelierten St√∂rtermen.
 
-Wodurch kann es zu kontempor‰rer Korrelation kommen?
+Wodurch kann es zu kontempor√§rer Korrelation kommen?
 
 Fehler in den Variablen (Errors-in-variables). Beispiel: 
 \[ y_{t}=\alpha +\beta x_{t}^{\ast }+e_{t}, \]
@@ -3900,8 +4053,8 @@ wobei $x_{t}^{\ast }$ nicht direkt beobachtet werden kann. Stattdessen
 beobachten wir eine verrauschte Version der exogenen Variablen.
 Die Annahme C1 ist also verletzt.
 \[ x_{t}=x_{t}^{\ast }+v_{t}. \]
-Annahme: $E(e_{t}v_{t})=0$ f¸r alle $s,t$; beide Stˆrterme sollen
-B1, B2, B3 erf¸llen.
+Annahme: $E(e_{t}v_{t})=0$ f√ºr alle $s,t$; beide St√∂rterme sollen
+B1, B2, B3 erf√ºllen.
 
 Das beobachtete Modell ist
 \begin{align*}
@@ -3920,7 +4073,7 @@ Cov(u_{t},u_{s}) &=E(u_{t}u_{s}) \\
 &=E\left( \left( e_{t}-\beta v_{t}\right) \left( e_{s}-\beta v_{s}\right)\right) \\
 &=0,
 \end{align*}
-aber die Stˆrterme sind kontempor‰r korreliert mit der beobachteten
+aber die St√∂rterme sind kontempor√§r korreliert mit der beobachteten
 exogenen Variable,
 \begin{align*}
 Cov(x_{t},u_{t}) &=E\left( x_{t}u_{t}\right) \\
@@ -3931,9 +4084,9 @@ Cov(x_{t},u_{t}) &=E\left( x_{t}u_{t}\right) \\
 \end{align*}
 
 Simultanes Gleichungssystem: Die exogene Variable ist im Rahmen eines umfassenden
-ˆkonomischen Modells selbst endogen (das behandeln wir sp‰ter noch ausf¸hrlicher).
+√∂konomischen Modells selbst endogen (das behandeln wir sp√§ter noch ausf√ºhrlicher).
 
-Einfaches Beispiel: Makroˆkonomische Konsumfunktion
+Einfaches Beispiel: Makro√∂konomische Konsumfunktion
 \[ c_{t}=\alpha +\beta y_{t}+u_{t} \]
 und
 \[ y_{t}=c_{t}+i_{t}. \]%
@@ -3947,14 +4100,14 @@ Cov\left( y_{t},u_{t}\right) &=E\left( y_{t}u_{t}\right) \\
 E\left( y_{t}u_{t}\right) &=\sigma _{u}^{2}/\left( 1-\beta \right) \\
 &\neq 0.
 \end{align*}
-Also kommt es zu kontempor‰rer Korrelation zwischen Stˆrterm und
+Also kommt es zu kontempor√§rer Korrelation zwischen St√∂rterm und
 endogener Variable.
 
-Was sind die Folgen kontempor‰rer Korrelation f¸r den OLS-Sch‰tzer $\hat{\beta}$?
+Was sind die Folgen kontempor√§rer Korrelation f√ºr den OLS-Sch√§tzer $\hat{\beta}$?
 
-Der Sch‰tzer ist verzerrt,
+Der Sch√§tzer ist verzerrt,
 \[ E(\hat{\beta}) \neq \beta. \]
-Schlimmer noch: Der Sch‰tzer ist  inkonsistent. Sei
+Schlimmer noch: Der Sch√§tzer ist  inkonsistent. Sei
 \[ \textrm{plim}\left( \frac{X'u}{T}\right) =:q, \]
 dann ist
 \begin{align*}
@@ -3963,19 +4116,19 @@ dann ist
 &=\beta +Q_{XX}^{-1}q \\
 &\neq \beta .
 \end{align*}
-Folglich hilft auch ein groﬂer Stichprobenumfang nicht! Inkonsistenz
-eines Sch‰tzer ist ein gravierendes Problem. Wie kann man das
-Problem lˆsen?
+Folglich hilft auch ein gro√üer Stichprobenumfang nicht! Inkonsistenz
+eines Sch√§tzer ist ein gravierendes Problem. Wie kann man das
+Problem l√∂sen?
 
-\section*{Instrumentvariablen (IV-Sch‰tzung)}
+\section*{Instrumentvariablen (IV-Sch√§tzung)}
 
-Wir betrachten das ¸bliche Modell
+Wir betrachten das √ºbliche Modell
 \[ y=X\beta+u \]
-mit kontempor‰rer Korrelation zwischen $X$ und $u$.
+mit kontempor√§rer Korrelation zwischen $X$ und $u$.
 
 Als Instrumentvariable (oder Instrument) bezeichnet man eine
-Zufallsvariable $Z$, die kontempor‰r unkorreliert ist mit $u$, aber
-kontempor‰r korreliert ist mit $X$.
+Zufallsvariable $Z$, die kontempor√§r unkorreliert ist mit $u$, aber
+kontempor√§r korreliert ist mit $X$.
 
 Sei $Z$ eine $(T\times (L+1))$-Matrix von Instrumenten und
 \[ P=Z(Z'Z)^{-1}Z'. \]
@@ -3984,12 +4137,12 @@ Es muss gelten $L\geq K$ (oft ist $L=K$).
 
 Wir transformieren das Modell zu
 \[ Py=PX\beta+Pu. \]
-Der KQ-Sch‰tzer von $\beta$ im transformierten Modell, 
+Der KQ-Sch√§tzer von $\beta$ im transformierten Modell, 
 \begin{align*}
 \hat{\beta}^{IV} &=(X'P'PX)^{-1}X'P'Py \\
 &=(X'PX)^{-1}X'Py
 \end{align*}
-heiﬂt IV-Sch‰tzer.
+hei√üt IV-Sch√§tzer.
 
 Im Spezialfall $L=K$ gilt
 \begin{align*}
@@ -4001,7 +4154,7 @@ und in der einfachen linearen Regression ($L=K=1$)
 \[ \hat{\beta}^{IV}=\frac{\sum \left( z_{t}-\bar{z}\right) \left( y_{t}-\bar{y}\right)}
 {\sum \left( z_{t}-\bar{z}\right) \left( x_{t}-\bar{x}\right) }. \]
 
-Folgende Annahmen treffen wir ¸ber $Z$:
+Folgende Annahmen treffen wir √ºber $Z$:
 
 \begin{itemize}
 	\item Konvergenz:
@@ -4012,14 +4165,14 @@ Folgende Annahmen treffen wir ¸ber $Z$:
 	\[ \textrm{plim }\frac{Z'X}{T}=Q_{ZX} \]
 	mit
 	\[ \text{rang}(Q_{ZX})=K+1. \]
-	\item Asymptotische Unkorreliertheit mit den Stˆrtermen
+	\item Asymptotische Unkorreliertheit mit den St√∂rtermen
 	\[ \textrm{plim }\frac{Z'u}{T}=\lim_{T\rightarrow\infty }
 	E\left( \frac{Z'u}{T}\right) =0 \]
 \end{itemize}
 
-Unter diesen Annahmen ist der IV-Sch‰tzer konsistent, aber nicht
+Unter diesen Annahmen ist der IV-Sch√§tzer konsistent, aber nicht
 erwartungstreu. Um die Konsistenz zu zeigen, formen wir zuerst
-den Sch‰tzer etwas um,
+den Sch√§tzer etwas um,
 \begin{align*}
 \hat\beta^{IV} &= (X'PX)^{-1}X'Py \\
 &=\beta +(X'PX)^{-1}X'Pu.
@@ -4033,12 +4186,12 @@ Also gilt
 &=\beta +(Q_{ZX}'Q_{ZZ}^{-1}Q_{ZX})^{-1}Q_{ZX}'Q_{ZZ}^{-1}0 \\
 &=\beta.
 \end{align*}
-F¸r den Beweis wird sowohl die asymptotische Unkorreliertheit von 
+F√ºr den Beweis wird sowohl die asymptotische Unkorreliertheit von 
 $X$ und $u$ als auch die asymptotische Korreliertheit von $X$ und $Z$
-benˆtigt. Wenn die Instrumente schwach sind (d.h., $Q_{ZX}=0$),
+ben√∂tigt. Wenn die Instrumente schwach sind (d.h., $Q_{ZX}=0$),
 gilt die Herleitung nicht mehr.
 
-Der IV-Sch‰tzer ist asymptotisch normalverteilt. Aus
+Der IV-Sch√§tzer ist asymptotisch normalverteilt. Aus
 \[ \hat\beta^{IV}-\beta =(X'PX)^{-1}X'Pu \]
 folgt
 \[ \sqrt{T}(\hat\beta^{IV}-\beta) =\left( \frac{X'PX}{T}\right) ^{-1}\cdot T^{-1/2}X'Pu. \]
@@ -4047,7 +4200,7 @@ Der Term auf der rechten Seite kann wie folgt umgeschrieben werden,
 T^{-1/2}X'Pu &= T^{-1/2}X'Z(Z'Z)^{-1}Z'u \\
 &= \left( \frac{X'Z}{T}\right) \left( \frac{Z'Z}{T}\right)^{-1}T^{-1/2}Z'u.
 \end{align*}
-F¸r $T\rightarrow \infty $ konvergieren die Terme $\left(\frac{X'Z}{T}\right)$
+F√ºr $T\rightarrow \infty $ konvergieren die Terme $\left(\frac{X'Z}{T}\right)$
 und $\left( \frac{Z'Z}{T}\right)^{-1}$ nach Wahrscheinlichkeit gegen $Q_{XZ}$ und 
 $Q_{ZZ}^{-1}$. Der Faktor $T^{-1/2}Z'u$ kann elementweise geschrieben werden als:
 \[ T^{-1/2}Z'u=\left[ 
@@ -4069,7 +4222,7 @@ T^{-1/2}X'Pu &= \left( \frac{X'Z}{T}\right) \left( \frac{Z'Z}{T}\right) ^{-1}T^{
 &\rightarrow N\left( 0,Q_{XZ}Q_{ZZ}^{-1}\sigma ^{2}Q_{ZZ}Q_{ZZ}^{-1}Q_{XZ}'\right) \\
 &= N\left( 0,\sigma ^{2}Q_{XZ}Q_{ZZ}^{-1}Q_{XZ}'\right) .
 \end{align*}
-und schlieﬂlich
+und schlie√ülich
 \begin{align*}
 \sqrt{T}(\hat\beta^{IV}-\beta) 
 &=\left( \frac{X'PX}{T}\right)^{-1}\cdot T^{-1/2}X'Pu \\
@@ -4078,7 +4231,7 @@ und schlieﬂlich
 \sigma ^{2}Q_{XZ}Q_{ZZ}^{-1}Q_{XZ}'\left(Q_{X'Z}Q_{ZZ}^{-1}Q_{XZ}'\right) ^{-1}\right) \\
 &= N\left( 0,\sigma ^{2}\left( Q_{X'Z}Q_{ZZ}^{-1}Q_{XZ}^{\prime}\right) ^{-1}\right) .
 \end{align*}
-Ein Sch‰tzer f¸r die Kovarianzmatrix 
+Ein Sch√§tzer f√ºr die Kovarianzmatrix 
 \[ V(\hat\beta^{IV})=\sigma ^{2}\left( Q_{X^{\prime}Z}Q_{ZZ}^{-1}Q_{XZ}'\right) ^{-1}/T \]
 ist
 \begin{align*}
@@ -4101,8 +4254,8 @@ Die Hypothesen lauten
 H_{0} &:\textrm{plim }\frac{X'u}{T}=0 \\
 H_{1} &:\textrm{plim }\frac{X'u}{T}\neq 0.
 \end{align*}
-Testidee: Unter $H_{0}$ sind sowohl der OLS- als auch der IV-Sch‰tzer
-konsistent, aber unter $H_{1}$ ist nur der IV-Sch‰tzer konsistent.
+Testidee: Unter $H_{0}$ sind sowohl der OLS- als auch der IV-Sch√§tzer
+konsistent, aber unter $H_{1}$ ist nur der IV-Sch√§tzer konsistent.
 Lehne $H_0$ ab, wenn $\hat{\beta}^{IV}$ \quotedblbase zu weit\textquotedblright\ 
 von $\hat{\beta}$ abweicht.
 
@@ -4114,15 +4267,15 @@ Unter $H_{0}$ folgt die Teststatistik einer $\chi_{K^*}^2$-Verteilung,
 wobei $K^*$ die Zahl der Spalten in $Z$ ist, die nicht in $X$ enthalten
 sind (also die ``echten Instrumente'').
 
-\section*{Multikollinearit‰t}
+\section*{Multikollinearit√§t}
 
-Perfekte Multikollinearit‰t beruht praktisch immer auf einem Denkfehler
+Perfekte Multikollinearit√§t beruht praktisch immer auf einem Denkfehler
 bei der Variablendefinition, z.B.\ bei Dummy-Variablen oder Anteilen.
 
-Bei imperfekter Multikollinearit‰t lassen sich die Einfl¸sse der
+Bei imperfekter Multikollinearit√§t lassen sich die Einfl√ºsse der
 einzelnen exogenen Variablen auf die endogene Variable schlecht
 voneinander trennen. Ein wirkliches Problem liegt aber nicht vor,
-da alle Modellannahmen weiterhin erf¸llt sind.
+da alle Modellannahmen weiterhin erf√ºllt sind.
 
 \section{Dynamische Modelle}
 
@@ -4130,7 +4283,7 @@ Notation und Begriffe:
 \begin{itemize}
 	\item Stochastischer Prozess: $x_{1},\ldots ,x_{T}$
 	\item Momentfunktionen: $E(x_{t})$, $Var(x_{t})$, $Cov(x_{t},x_{t+\tau })$
-	\item (Schwache) Stationarit‰t
+	\item (Schwache) Stationarit√§t
 	\begin{eqnarray*}
 		E(x_{t}) &=&\mu \\
 		Var(x_{t}) &=&\sigma_x^2 \\
@@ -4139,15 +4292,15 @@ Notation und Begriffe:
 	\item Integrationsordnung des Prozesses, $I(d)$
 \end{itemize}
 
-Das einfachste dynamische Modell hat verzˆgerte exogene Variable
+Das einfachste dynamische Modell hat verz√∂gerte exogene Variable
 \[ y_{t}=\alpha +\beta _{0}x_{t}+\beta _{1}x_{t-1}+\ldots +\beta_{K}x_{t-K}+v_{t} \]
 Aus den Parametern ergeben sich der kurzfristige und der langfristige Multiplikator.
-Im ungestˆrten langfristigen Gleichgewicht gilt
+Im ungest√∂rten langfristigen Gleichgewicht gilt
 \begin{align*}
 y_{t-1} &=\tilde{y}=\alpha +\beta _{0}\tilde{x}+\ldots +\beta _{K}\tilde{x}\\
 &=\alpha +\tilde{x}\sum_{k=0}^{K}\beta _{k}.
 \end{align*}
-Eine Erhˆhung von $\tilde{x}$ um eine Einheit in Periode $t$ ergibt
+Eine Erh√∂hung von $\tilde{x}$ um eine Einheit in Periode $t$ ergibt
 \begin{align*}
 y_{t} &=\alpha +\beta _{0}\left( \tilde{x}+1\right) +\beta _{1}\tilde{x}+\ldots +\beta _{K}\tilde{x} \\
 &=\alpha +\tilde{x}\sum_{k=0}^{K}\beta _{k}+\beta _{0} \\
@@ -4155,24 +4308,24 @@ y_{t} &=\alpha +\beta _{0}\left( \tilde{x}+1\right) +\beta _{1}\tilde{x}+\ldots 
 \end{align*}
 Daher wird $\beta _{0}$ kurzfristiger Multiplikator genannt.
 
-Im neuen ungestˆrten Gleichgewicht ist langfristig
+Im neuen ungest√∂rten Gleichgewicht ist langfristig
 \begin{align*}
 y_{t+K} &=\alpha +\beta _{0}\left( \tilde{x}+1\right) +\beta _{1}\left( 
 \tilde{x}+1\right) +\ldots +\beta _{K}\left( \tilde{x}+1\right) \\
 &=\alpha +\tilde{x}\sum_{k=0}^{K}\beta _{k}+\sum_{k=0}^{K}\beta _{k} \\
 &=y_{t-1}+\sum_{k=0}^{K}\beta _{k}.
 \end{align*}%
-Daher heiﬂt $\sum_{k=0}^{K}\beta _{k}$ langfristiger Multiplikator.
+Daher hei√üt $\sum_{k=0}^{K}\beta _{k}$ langfristiger Multiplikator.
 
-Bei der Sch‰tzung dieses dynamischen Modells kommt es zu mehreren Problemen:
+Bei der Sch√§tzung dieses dynamischen Modells kommt es zu mehreren Problemen:
 \begin{itemize}
 	\item es gibt viele Parameter,
-	\item Multikollinearit‰t,
-	\item eine pr‰zise Sch‰tzung der einzelnen Komponenten $\beta _{k}$ ist nicht mˆglich.
+	\item Multikollinearit√§t,
+	\item eine pr√§zise Sch√§tzung der einzelnen Komponenten $\beta _{k}$ ist nicht m√∂glich.
 \end{itemize}
 
 Anmerkung: Die Varianz des langfristigen Multiplikators kann selbst dann
-klein sein, wenn alle Komponenten $\hat{\beta}_{k}$ eine groﬂe Varianz haben,
+klein sein, wenn alle Komponenten $\hat{\beta}_{k}$ eine gro√üe Varianz haben,
 denn
 \[
 Var\left( \sum_{k=1}^{K}\hat\beta_{k}\right) =\sum_{k=1}^{K}Var\left( \hat{%
@@ -4180,7 +4333,7 @@ Var\left( \sum_{k=1}^{K}\hat\beta_{k}\right) =\sum_{k=1}^{K}Var\left( \hat{%
 \hat\beta_{k}\right) . 
 \]
 Wenn die Kovarianzen negativ sind, bleibt die Varianz der Summe klein.
-Eine Umparametrisierung des Modells hilft bei der Sch‰tzung des
+Eine Umparametrisierung des Modells hilft bei der Sch√§tzung des
 langfristigen Multiplikators. Wir schreiben:
 \begin{align*}
 y_{t} &=\alpha +\beta _{0}x_{t}+\beta _{1}x_{t-1}+\ldots +\beta_{K}x_{t-K}+v_{t} \\
@@ -4207,11 +4360,11 @@ wobei
 &\vdots \\
 \delta _{K} &=\beta _{0}+\ldots +\beta _{K}.
 \end{align*}
-In dieser Schreibweise erh‰lt man den Standardfehler des langfristigen 
+In dieser Schreibweise erh√§lt man den Standardfehler des langfristigen 
 Multiplikators sofort.
 
-Um die Zahl der zu sch‰tzenden Parameter zu verringern, kann
-man eine funktionale Form f¸r den Verlauf von 
+Um die Zahl der zu sch√§tzenden Parameter zu verringern, kann
+man eine funktionale Form f√ºr den Verlauf von 
 $\beta _{0},\beta _{1},\ldots ,\beta _{K}$ annehmen.
 Typische Annahmen sind:
 \begin{itemize}
@@ -4226,7 +4379,7 @@ eine quadratische Funktion
 \begin{equation*}
 \beta _{k}=\eta _{0}+\eta _{1}k+\eta _{2}k^{2}
 \end{equation*}
-f¸r $k=0,\ldots ,K$. Es gibt nun weniger als $K$ Parameter, denn
+f√ºr $k=0,\ldots ,K$. Es gibt nun weniger als $K$ Parameter, denn
 \begin{align*}
 y_{t} &=\alpha +\sum_{k=0}^{K}\beta _{k}x_{t-k}+v_{t} \\
 &=\alpha +\sum_{k=0}^{K}\left( \eta _{0}+\eta _{1}k+\eta _{2}k^{2}\right)x_{t-k}+v_{t} \\
@@ -4234,18 +4387,18 @@ y_{t} &=\alpha +\sum_{k=0}^{K}\beta _{k}x_{t-k}+v_{t} \\
 &\qquad +\eta _{2}\sum_{k=0}^{K}k^{2}x_{t-k}+v_{t} \\
 &=\alpha +\eta _{0}x_{1t}^{\ast }+\eta _{1}x_{2t}^{\ast }+\eta_{2}x_{3t}^{\ast }+v_{t}.
 \end{align*}
-Die G¸ltigkeit der Restriktionen kann man wie ¸blich testen.
+Die G√ºltigkeit der Restriktionen kann man wie √ºblich testen.
 
 \subsection*{Geometrische Lags}
 
-Die $\beta _{k}$ h‰ngen nun wie folgt von $k$ ab:
+Die $\beta _{k}$ h√§ngen nun wie folgt von $k$ ab:
 \[ \beta _{k}=\beta _{0}\lambda ^{k} \]
-mit $0<\lambda <1$. Es ist ¸blich, dass man $K=\infty $ setzt,
+mit $0<\lambda <1$. Es ist √ºblich, dass man $K=\infty $ setzt,
 \begin{align*}
 y_{t} &=\alpha +\beta _{0}x_{t}+\beta _{1}x_{t-1}+\beta _{2}x_{t-2}+\ldots+v_{t} \\
 &=\alpha +\beta _{0}x_{t}+\beta _{0}\lambda x_{t-1}+\beta _{0}\lambda^{2}x_{t-2}+\ldots +v_{t}.
 \end{align*}
-Der kurzfristige Multiplikator betr‰gt $\beta _{0}$. Der
+Der kurzfristige Multiplikator betr√§gt $\beta _{0}$. Der
 langfristige Multiplikator ist 
 \begin{align*}
 \sum_{k=0}^{\infty }\beta _{k} &=\beta _{0}\sum_{k=0}^{\infty }\lambda ^{k}\\
@@ -4263,7 +4416,7 @@ y_{t}-\lambda y_{t-1} &=\left( \alpha -\lambda \alpha \right) +\beta
 _{0}x_{t}+\left( v_{t}-\lambda v_{t-1}\right) \\
 y_{t} &=\alpha _{0}+\beta _{0}x_{t}+\lambda y_{t-1}+u_{t}.
 \end{align*}
-Eine OLS-Sch‰tzung ist problematisch, weil B3 und C1 verletzt sind.
+Eine OLS-Sch√§tzung ist problematisch, weil B3 und C1 verletzt sind.
 
 Modell mit rationaler Lag-Verteilung
 \begin{align*}
@@ -4276,7 +4429,7 @@ Aus
 \[ y_{t}=\alpha _{0}+\beta _{0}x_{t}+\mu x_{t-1}+\lambda y_{t-1}+u_{t} \]
 folgt
 \[ y_{t}-\lambda y_{t-1}=\alpha _{0}+\beta _{0}x_{t}+\mu x_{t-1}+u_{t} \]
-Langfristiges (ungestˆrtes) Gleichgewicht
+Langfristiges (ungest√∂rtes) Gleichgewicht
 \[ y^{\ast }=\frac{\alpha _{0}}{1-\lambda }+\frac{\beta _{0}+\mu }{1-\lambda }x^{\ast }. \]
 
 \subsection*{Fehlerkorrekturmodell}
@@ -4302,17 +4455,17 @@ Fehlerkorrekturdarstellung
 \[ \Delta y_{t}=\beta _{0}\Delta x_{t}-\left( 1-\lambda \right) e_{t-1}+u_{t} \]
 mit dem Ungleichgewichtsterm
 \[ e_{t-1}=y_{t-1}-\frac{\alpha _{0}}{1-\lambda }+\frac{\beta _{0}+\mu }{1-\lambda }x_{t-1}. \]
-Wenn $x_{t}$ und $y_{t}$ beide $I(1)$ sind und wenn $e_{t-1}$ auﬂerdem $I(0)$
-ist, dann heiﬂen $x_{t}$ und $y_{t}$ kointegriert.
+Wenn $x_{t}$ und $y_{t}$ beide $I(1)$ sind und wenn $e_{t-1}$ au√üerdem $I(0)$
+ist, dann hei√üen $x_{t}$ und $y_{t}$ kointegriert.
 
-Sch‰tzung des Fehlerkorrekturmodells:
+Sch√§tzung des Fehlerkorrekturmodells:
 \begin{enumerate}
 	\item Bestimme die Integrationsordnung von $x_{t}$ und $y_{t}$.
-	\item Sch‰tze per OLS
+	\item Sch√§tze per OLS
 	\[ y_{t-1}=\frac{\alpha _{0}}{1-\lambda }-\frac{\beta _{0}+\mu }{1-\lambda }x_{t-1}+e_{t-1} \]
 	und berechne die Residuen $\hat{e}_{t-1}$.
 	\item Bestimme die Integrationsordnung von $\hat{e}_{t-1}$.
-	\item Wenn Kointegration vorliegt, sch‰tze
+	\item Wenn Kointegration vorliegt, sch√§tze
 	\[ \Delta y_{t}=\beta _{0}\Delta x_{t}-\left( 1-\lambda \right) \hat{e}_{t-1}+u_{t} \]
 \end{enumerate}
 
@@ -4328,10 +4481,10 @@ a_{t} &=\alpha +\beta _{1}w_{t}+\beta _{2}p_{t}+u_{t} \\
 w_{t} &=\gamma +\delta _{1}a_{t}+\delta _{2}q_{t}+v_{t}
 \end{align*}
 
-Die Fehlerterme sollen alle B-Annahmen erf¸llen. Auﬂerdem nehmen wir
-an, dass $Cov(u_t,v_t) =\sigma _{uv}$ und $Cov(u_s,v_t)=0$ f¸r $s\neq t$.
+Die Fehlerterme sollen alle B-Annahmen erf√ºllen. Au√üerdem nehmen wir
+an, dass $Cov(u_t,v_t) =\sigma _{uv}$ und $Cov(u_s,v_t)=0$ f√ºr $s\neq t$.
 In der ersten Gleichung sind $u_{t}$ und $w_{t}$ korreliert!
-Folglich sind die OLS-Sch‰tzer inkonsistent.
+Folglich sind die OLS-Sch√§tzer inkonsistent.
 
 Strukturelle Form versus reduzierte Form:
 
@@ -4345,7 +4498,7 @@ leiten wir die reduzierte Form ab: Das System
 a_{t} &=\alpha +\beta _{1}w_{t}+\beta _{2}p_{t}+u_{t} \\
 w_{t} &=\gamma +\delta _{1}a_{t}+\delta _{2}q_{t}+v_{t}
 \end{align*}
-lˆst man nach den endogenen Variablen $a_{t}$ und $w_{t}$ auf.
+l√∂st man nach den endogenen Variablen $a_{t}$ und $w_{t}$ auf.
 Die erste Gleichung ist
 \begin{align*}
 a_{t} &=\alpha +\beta _{1}w_{t}+\beta _{2}p_{t}+u_{t} \\
@@ -4360,11 +4513,11 @@ a_{t} &=\frac{\alpha +\beta _{1}\gamma }{1-\beta _{1}\delta _{1}}+\frac{%
 	1-\beta _{1}\delta _{1}}q_{t}+\frac{u_{t}+\beta _{1}v_{t}}{1-\beta
 	_{1}\delta _{1}}
 \end{align*}
-Analog ergibt sich f¸r die zweite Gleichung
+Analog ergibt sich f√ºr die zweite Gleichung
 \[ w_{t}=\frac{\gamma +\delta _{1}\alpha }{1-\beta _{1}\delta _{1}}+\frac{\beta
 	_{2}\delta _{1}}{1-\beta _{1}\delta _{1}}p_{t}+\frac{\delta _{2}}{1-\beta
 	_{1}\delta _{1}}q_{t}+\frac{\delta _{1}u_{t}+v_{t}}{1-\beta _{1}\delta _{1}}.\]
-Wir definieren eine neue Notation f¸r die Parameter,
+Wir definieren eine neue Notation f√ºr die Parameter,
 \begin{align*}
 a_{t} &=\pi _{1}+\pi _{2}p_{t}+\pi _{3}q_{t}+u_{t}^{\ast } \\
 w_{t} &=\pi _{4}+\pi _{5}p_{t}+\pi _{6}q_{t}+v_{t}^{\ast }
@@ -4381,10 +4534,10 @@ mit
 In der reduzierten Form stehen alle endogenen Variablen auf der linken
 Seite und alle exogenen Variablen auf der rechten Seite.
 
-Die Gleichungen der reduzierten Form kann man mit OLS sch‰tzen.
+Die Gleichungen der reduzierten Form kann man mit OLS sch√§tzen.
 
-Die Sch‰tzer $\hat{\pi}_{1},\ldots ,\hat{\pi}_{6}$ kˆnnen zur¸ck
-transformiert werden in die Sch‰tzer $\hat{\alpha},\hat{\beta}_{1},\hat{\beta}_{2},
+Die Sch√§tzer $\hat{\pi}_{1},\ldots ,\hat{\pi}_{6}$ k√∂nnen zur√ºck
+transformiert werden in die Sch√§tzer $\hat{\alpha},\hat{\beta}_{1},\hat{\beta}_{2},
 \hat{\gamma},\hat{\delta}_{1},\hat{\delta}_{2}$, und zwar
 \begin{align*}
 \beta _{1} &=\frac{\pi _{3}}{\pi _{6}} \\
@@ -4398,7 +4551,7 @@ Umschreiben ergibt
 \delta _{2} &=\pi _{6}-\frac{\pi _{3}\pi _{5}}{\pi _{2}}.
 \end{align*}
 
-Die Sch‰tzer $\hat{\alpha},\hat{\beta}_{1},\hat{\beta}_{2},
+Die Sch√§tzer $\hat{\alpha},\hat{\beta}_{1},\hat{\beta}_{2},
 \hat{\gamma},\hat{\delta}_{1},\hat{\delta}_{2}$ sind konsistent.
 
 Manchmal lassen sich die strukturellen Parameter nicht aus den
@@ -4413,14 +4566,14 @@ die reduzierte Form
 a_{t} &=\pi _{1}+\pi _{2}p_{t}+u_{t}^{\ast } \\
 w_{t} &=\pi _{3}+\pi _{4}p_{t}+v_{t}^{\ast }.
 \end{align*}
-Nun gibt es f¸nf strukturelle Parameter, aber nur vier
-reduzierte Parametern. Eine eindeutige R¸cktransformation
-ist also unmˆglich.
+Nun gibt es f√ºnf strukturelle Parameter, aber nur vier
+reduzierte Parametern. Eine eindeutige R√ºcktransformation
+ist also unm√∂glich.
 
 Manchmal gibt es auch mehr reduzierte Parameter als strukturelle
 Parameter. 
 
-Abz‰hlkriterium: Sei
+Abz√§hlkriterium: Sei
 \begin{align*}
 \dot{K} &=\text{Anzahl der exogenen Variablen im Gesamtmodell} \\
 K^{\ast } &=\text{Anzahl der exogenen Variablen in der betrachteten Gleichung} \\
@@ -4430,38 +4583,38 @@ Eine Gleichung ist
 \begin{eqnarray*}
 	\text{unteridentifiziert, wenn }M^{\ast }-1 &>&\dot{K}-K^{\ast } \\
 	\text{exakt identifiziert, wenn }M^{\ast }-1 &=&\dot{K}-K^{\ast } \\
-	\text{¸beridentifiziert, wenn }M^{\ast }-1 &<&\dot{K}-K^{\ast }.
+	\text{√ºberidentifiziert, wenn }M^{\ast }-1 &<&\dot{K}-K^{\ast }.
 \end{eqnarray*}
 $M^{\ast }-1$ ist die Anzahl der endogenen Regressoren (auf der rechten Seite);
 und $\dot{K}-K^{\ast }$ ist die Anzahl der exogenen Variablen in den anderen
 Gleichungen. Man braucht also mindestens eine exogene Variable aus den anderen
-Gleichungen f¸r jeden endogenen Regressor.
+Gleichungen f√ºr jeden endogenen Regressor.
 
-\subsection*{Sch‰tzung von exakt oder ¸beridentifizierten Gleichungen}
+\subsection*{Sch√§tzung von exakt oder √ºberidentifizierten Gleichungen}
 
 Die zweistufige Methode der kleinsten Quadrate (2SLS) hat folgende
 Grundidee: Generiere Instrumentvariablen aus der reduzierten Form.
 
-Beispiel f¸r 2SLS: Die zweite Gleichung von
+Beispiel f√ºr 2SLS: Die zweite Gleichung von
 \begin{align*}
 a_{t} &=\alpha +\beta _{1}w_{t}+\beta _{2}p_{t}+u_{t} \\
 w_{t} &=\gamma +\delta _{1}a_{t}+\delta _{2}q_{t}+v_{t}
 \end{align*}
-soll gesch‰tzt werden.
+soll gesch√§tzt werden.
 
-Erste Stufe: Sch‰tze
+Erste Stufe: Sch√§tze
 \[ a_{t}=\pi _{1}+\pi _{2}p_{t}+\pi _{3}q_{t}+u_{t}^{\ast } \]
 per OLS und berechne $\hat{a}_{t}=\hat{\pi}_{1}+\hat{\pi}_{2}p_{t}+\hat{\pi}_{3}q_{t}$.
 
-Zweite Stufe: OLS-Sch‰tzung von
+Zweite Stufe: OLS-Sch√§tzung von
 \[ w_{t}=\gamma +\delta _{1}\hat{a}_{t}+\delta _{2}q_{t}+v_{t} \]
-Die 2SLS-Sch‰tzer (IV-Sch‰tzer) sind konsistent, aber die Standardfehler aus der
-zweiten Stufe m¸ssen noch angepasst werden.
+Die 2SLS-Sch√§tzer (IV-Sch√§tzer) sind konsistent, aber die Standardfehler aus der
+zweiten Stufe m√ºssen noch angepasst werden.
 
-Die Sch‰tzer haben eine einfache asymptotische Verteilung, aber die
-Verteilung der Sch‰tzer in endlichen Stichproben ist kompliziert.
+Die Sch√§tzer haben eine einfache asymptotische Verteilung, aber die
+Verteilung der Sch√§tzer in endlichen Stichproben ist kompliziert.
 
-\subsection*{Matrixnotation f¸r interdependente Gleichungssysteme}
+\subsection*{Matrixnotation f√ºr interdependente Gleichungssysteme}
 
 Allgemeine Notation: Sei $M$ die Anzahl der Gleichungen im System.
 Die endogenen Variablen werden in der $(T\times M)$-Matrix
@@ -4475,7 +4628,7 @@ y_m &=\alpha_m x_0+\beta _{1m}x_1+\beta_{2m}x_2+\ldots +\beta _{Km}x_K \\
 &\quad+\gamma _{1m}y_{1}+\ldots +\gamma _{m-1m}y_{m-1}+\gamma_{m+1m}y_{m+1}+\ldots +\gamma _{Mm}y_{M} \\
 &\quad+u_{m}.
 \end{align*}
-Setzt man $\gamma _{mm}=-1$, dann l‰sst sich die $m$-te Gleichung 
+Setzt man $\gamma _{mm}=-1$, dann l√§sst sich die $m$-te Gleichung 
 kompakt schreiben als
 \[ \gamma _{1m}y_{1}+\ldots +\gamma _{Mm}y_{M}
 +\alpha _{m}x_{0}+\beta _{1m}x_{1}+\ldots +\beta _{Km}x_{K}+u_{m}=0. \]
@@ -4499,20 +4652,20 @@ wobei (beachte die Dimensionen!)
 B &=[\beta_{1}\quad \dots \quad \beta_{K}] \\
 U &=[u_{1}\quad \dots \quad u_{M}].
 \end{align*}
-Die Stˆrterme $u_{m}$, $m=1,\ldots ,M$, sollen alle B-Annahmen
-erf¸llen. Es ist jedoch erlaubt, dass die Stˆrterme verschiedener
+Die St√∂rterme $u_{m}$, $m=1,\ldots ,M$, sollen alle B-Annahmen
+erf√ºllen. Es ist jedoch erlaubt, dass die St√∂rterme verschiedener
 Gleichungen miteinander korreliert sind.
 
 Annahmen:
 \begin{align*}
-E(u_{m}u_{m}') &=\sigma_{m}^{2}I_{T}\qquad \text{f¸r }m=1,\ldots ,M \\
-E(u_{m}u_{n}') &=\sigma_{mn}I_{T}\qquad \text{f¸r }m\neq n
+E(u_{m}u_{m}') &=\sigma_{m}^{2}I_{T}\qquad \text{f√ºr }m=1,\ldots ,M \\
+E(u_{m}u_{n}') &=\sigma_{mn}I_{T}\qquad \text{f√ºr }m\neq n
 \end{align*}
-(Gibt es eine kompakte Notation f¸r diese Annahmen f¸r die
+(Gibt es eine kompakte Notation f√ºr diese Annahmen f√ºr die
 Matrix $U$?)
 
 Die reduzierte Form (alle endogenen Variablen stehen auf der linken
-Seite, alle exogenen Variablen rechts) l‰sst sich wie folgt bestimmen:
+Seite, alle exogenen Variablen rechts) l√§sst sich wie folgt bestimmen:
 Aus
 \[ Y\Gamma+XB+U=0 \]
 folgt
@@ -4521,7 +4674,7 @@ oder
 \[ Y=X\Pi+V \]
 mit $\Pi=-B\Gamma^{-1}$ und $V=-U\Gamma^{-1}$.
 
-Die strukturellen Parameter in $\Gamma $ und $B$ kˆnnen
+Die strukturellen Parameter in $\Gamma $ und $B$ k√∂nnen
 identifiziert werden, wenn sich ihre Werte aus den Parametern
 $\Pi$ bestimmen lassen.
 
@@ -4539,8 +4692,8 @@ und/oder $B$.
 Im folgenden gehen wir davon aus, dass alle Restriktionen Null-Restriktionen sind.
 Das Modell ist
 \[ Y\Gamma +XB+U=0. \]
-Ohne Beschr‰nkung der Allgemeinheit betrachten wir nur die erste Gleichung.
-Ferner seien die ¸brigen Gleichungen so sortiert, dass die $M_{1}^{\ast }-1$ 
+Ohne Beschr√§nkung der Allgemeinheit betrachten wir nur die erste Gleichung.
+Ferner seien die √ºbrigen Gleichungen so sortiert, dass die $M_{1}^{\ast }-1$ 
 endogenen und $K_{1}^{\ast }$ exogenen variablen der ersten Gleichung 
 zuerst kommen ($Y_{1}$ oder $X_{1}$), danach folgen die $M-M_{1}^{\ast }$ 
 endogenen und $\dot{K}-K_{1}^{\ast }$ exogenen Variablen, die nicht in der
@@ -4566,14 +4719,14 @@ In dieser Notation lautet die erste Gleichung
 oder
 \[ y=Y_{1}\gamma _{1}+X_{1}\beta _{1}+u_{1}=0. \]
 
-Das Endogenit‰tsproblem kann man durch eine IV-Sch‰tzung 
-lˆsen. Die $M_{1}^{\ast }-1$ endogenen Variablen $Y_{1}$
-m¸ssen durch Instrumente ersetzt werden. Es gibt $\dot{K}-K_{1}^{\ast }$ 
-Instrumente in $X_{2}$. Das Ordnungs- oder Abz‰hlkriterium ist also
+Das Endogenit√§tsproblem kann man durch eine IV-Sch√§tzung 
+l√∂sen. Die $M_{1}^{\ast }-1$ endogenen Variablen $Y_{1}$
+m√ºssen durch Instrumente ersetzt werden. Es gibt $\dot{K}-K_{1}^{\ast }$ 
+Instrumente in $X_{2}$. Das Ordnungs- oder Abz√§hlkriterium ist also
 \[ \dot{K}-K_{1}^{\ast }\geq M_{1}^{\ast }-1. \]
-Diese Bedingung ist jedoch nur eine notwendige Bedingung f¸r
+Diese Bedingung ist jedoch nur eine notwendige Bedingung f√ºr
 die Identifikation. Die hinreichende Bedingung lautet, dass
-die Instrumente in $X_{2}$ tats‰chlich valide f¸r die IV-Sch‰tzung sind.
+die Instrumente in $X_{2}$ tats√§chlich valide f√ºr die IV-Sch√§tzung sind.
 
 Der erste 2SLS-Schritt ergibt sich aus der reduzierten Form
 \[ Y=X\left( B\Gamma ^{-1}\right) +V \]
@@ -4596,10 +4749,10 @@ Diese Gleichung kann man auch schreiben als
 \right] +V. 
 \]%
 Um sicherzustellen, dass alle Elemente von $Y_{1}$ mit $X_{2}$
-korreliert sind, muss die zugehˆrige Partition der Matrix
+korreliert sind, muss die zugeh√∂rige Partition der Matrix
 $B\Gamma ^{-1}$ (d.h.\ $\Pi _{21}$) vollen Rang haben.
 Man spricht daher auch vom Rang-Kriterium. Man kann zeigen,
-dass diese Bedingung ‰quivalent ist zu
+dass diese Bedingung √§quivalent ist zu
 \[
 Rang\left( \left[ 
 \begin{array}{c}
@@ -4609,7 +4762,7 @@ B_{22}%
 \right] \right) =M-1. 
 \]
 
-\subsection*{Sch‰tzung interdependenter Gleichungssysteme}
+\subsection*{Sch√§tzung interdependenter Gleichungssysteme}
 
 Reduzierte Form:
 \begin{align*}
@@ -4617,16 +4770,16 @@ y_{1} &=X\pi_{1}+v_{1} \\
 &\vdots \\
 y_{M} &=X\pi_{M}+v_{M}
 \end{align*}
-OLS-Sch‰tzung der Gleichung $m$:
+OLS-Sch√§tzung der Gleichung $m$:
 \[ \hat{\pi}_{m}=(X'X)^{-1}X'y_{m} \]
-OLS-Sch‰tzung aller Gleichungen:
+OLS-Sch√§tzung aller Gleichungen:
 \[ \hat{\Pi}=(X'X)^{-1}X'Y \]
 
 Indirekte Kleinste-Quadrate-Methode: Wenn Gleichung $m$ exakt
 identifiziert ist, kann man die strukturellen Parameter
 eindeutig aus der Matrix $\hat\Pi$ bestimmen.
 
-Wenn die Gleichung $m$ exakt oder ¸beridentifiziert ist, 
+Wenn die Gleichung $m$ exakt oder √ºberidentifiziert ist, 
 kann man 2SLS verwenden. Dazu ordnet und partitioniert man
 die Matrizen, so dass 
 \[ \left[ y_{m}\quad \bar{Y}_{m}\quad \check{Y}_{m}\right] 
@@ -4638,9 +4791,9 @@ die Matrizen, so dass
 \end{array}%
 \right] +X\beta_{m}+u_{m}=0,
 \end{equation*}
-wobei $\bar{Y}_{m}$ die endogenen Regressoren aus Gleichung $m$ enth‰lt
+wobei $\bar{Y}_{m}$ die endogenen Regressoren aus Gleichung $m$ enth√§lt
 und $\check{Y}_{m}$ die nicht in Gleichung $m$ enthaltenen endogenen
-variablen enth‰lt.
+variablen enth√§lt.
 
 In dieser Notation kann man Gleichung $m$ so schreiben:
 \begin{align*}
@@ -4652,13 +4805,13 @@ y_{m} &=\bar{Y}_{m}\bar{\gamma}_{m}+X\beta_{m}+u_{m} \\
 \end{array}%
 \right] +u_{m}
 \end{align*}
-Erster Schritt der 2SLS-Sch‰tzung: Sch‰tze
+Erster Schritt der 2SLS-Sch√§tzung: Sch√§tze
 \[ \hat{\Pi}=(X'X)^{-1}X'Y \]
 bzw.
 \[ \left[ \hat{\pi}_{m}\quad \widehat{\bar{\Pi}}_{m}\quad 
 \widehat{\check{\Pi}}_{m}\right] =(X'X)^{-1}X'
 \left[ y_{m}\quad \bar{Y}_{m}\quad \check{Y}_{m}\right] \]
-Die Instrumente f¸r die endogenen Regressoren sind
+Die Instrumente f√ºr die endogenen Regressoren sind
 \[ \widehat{\bar{Y}}_{m}=X\widehat{\bar{\Pi}}_{m}. \]
 Zweiter Schritt: Ersetze die endogenen Regressoren $\bar{Y}_{m}$ in
 \[ y_{m}=\left[ \bar{Y}_{m}\quad X\right] \left[ 
@@ -4669,7 +4822,7 @@ Zweiter Schritt: Ersetze die endogenen Regressoren $\bar{Y}_{m}$ in
 \right] +u_{m} \]
 durch die Instrumente $\widehat{\bar{Y}}_{m}$.
 
-Der 2SLS-Sch‰tzer lautet
+Der 2SLS-Sch√§tzer lautet
 \[ \left[ 
 \begin{array}{c}
 \widehat{\bar{\gamma}}_{m}^{ZSKQ} \\ 
@@ -4678,7 +4831,7 @@ Der 2SLS-Sch‰tzer lautet
 \left[ \widehat{\bar{Y}}_{m}\quad X\right] \right] ^{-1}
 \left[ \widehat{\bar{Y}}_{m}\quad X\right]'y_{m} \]
 
-Die zugehˆrige Kovarianzmatrix des Sch‰tzers
+Die zugeh√∂rige Kovarianzmatrix des Sch√§tzers
 \[ \left[ 
 \begin{array}{c}
 \widehat{\bar{\gamma}}_{m}^{ZSKQ} \\ 
@@ -4703,18 +4856,18 @@ und NICHT
 \end{array}
 \right] \right)^2. \]
 
-\section*{Weitere Themen in ÷konometrie}
+\section*{Weitere Themen in √ñkonometrie}
 
 \begin{itemize}
 	\item Univariate Zeitreihenanalyse
 	\item Multivariate Zeitreihenanalyse
-	\item Paneldaten-÷konometrie
-	\item Bayesianische ÷konometrie und MCMC
-	\item Qualitative abh‰ngige Variable (Logit, Probit, Tobit, geordnetes Probit, 
+	\item Paneldaten-√ñkonometrie
+	\item Bayesianische √ñkonometrie und MCMC
+	\item Qualitative abh√§ngige Variable (Logit, Probit, Tobit, geordnetes Probit, 
 	multinomiales Probit, \ldots )
-	\item Fortgeschrittene Sch‰tzmethoden (GMM, MSM, Bootstrap, \ldots)
+	\item Fortgeschrittene Sch√§tzmethoden (GMM, MSM, Bootstrap, \ldots)
 	\item Durationsanalyse 
-	\item Z‰hldaten; Stichprobenverfahren; fehlende Werte
+	\item Z√§hldaten; Stichprobenverfahren; fehlende Werte
 	\item \ldots
 \end{itemize}
 \end{document}
