@@ -2,6 +2,14 @@
 % !TeX spellcheck = en_US
 \documentclass{article}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+lastexercise,
+%  noanswer,
+]{exercise}
+\renewcommand{\QuestionNB}{\alph{Question}.\ }
+\renewcommand{\subQuestionNB}{\roman{subQuestion}.\ }
+\renewcommand{\subsubQuestionNB}{\arabic{subsubQuestion}.\ }
+
 \usepackage[a4paper,top=2cm]{geometry}
 \usepackage{amssymb,amsmath,amsfonts}
 \usepackage[english]{babel}
@@ -9,6 +17,7 @@
 \usepackage{enumitem}
 \usepackage{booktabs}
 \usepackage{csquotes}
+\usepackage{graphicx}
 %\parindent0mm
 %\parskip1.5ex plus0.5ex minus0.5ex
 
@@ -28,30 +37,43 @@
 		\item If not otherwise stated, assume the validity of the assumption A, B and C given in the lecture.
 	\end{itemize}
 \newpage
-\section{Understanding}
-\begin{enumerate}[label=(\alph*)]
-\item Consider the following confidence set for a parameter $\beta_i$:
+\begin{Exercise}[title=(Understanding)]
+	
+\Question Consider the following confidence set for a parameter $\beta_i$:
 $$Pr(0.5 < \beta_i < 1.5) = 0.95$$
 Now test the following hypothesis without a concrete calculation:
-\begin{enumerate}[label=(\roman*)]
-	\item $H_0: \beta_i = 1.6$ vs. $H_1:\beta_i \neq 1.6$ for $a=5\%$
-	\item $H_0: \beta_i = 0.6$ vs. $H_1:\beta_i \neq 0.6$ for $a=5\%$
-	\item $H_0: \beta_i = 0.5$ vs. $H_1:\beta_i \neq 0.5$ for $a=10\%$
-\end{enumerate}
-\item Formalize the optimization problem which is solved by the ML estimator and give its first order conditions (you need not solve the
+\subQuestion $H_0: \beta_i = 1.6$ vs. $H_1:\beta_i \neq 1.6$ for $a=5\%$
+\subQuestion $H_0: \beta_i = 0.6$ vs. $H_1:\beta_i \neq 0.6$ for $a=5\%$
+\subQuestion $H_0: \beta_i = 0.5$ vs. $H_1:\beta_i \neq 0.5$ for $a=10\%$
+
+\Question Formalize the optimization problem which is solved by the ML estimator and give its first order conditions (you need not solve the
 resulting system of equations).
-\end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+\Question
+\subQuestion
+As 1.6 is not in the 95\% confidence set (0.5;1.5), we can reject the null hypothesis.
+\subQuestion
+As 0.6 is wihtin the 95\% confidence set (0.5;1.5), we cannot reject the null hypothesis.
+\subQuestion
+Note that for $a=10\%$ the confidence set will become smaller. Therefore, 0.5 will not lie in the confidence set anymore.
+\Question
+Log-Likelihood: $$\ln L(\beta,\sigma) = \frac{-T}{2}\ln(2\pi) - \frac{T}{2}\ln(\sigma^2) - \frac{(y-X\beta)'(y-X\beta)}{2\sigma^2}$$
+The necessary conditions are:
+$$\frac{\partial \ln L}{\partial \beta} = \frac{X'(y-X\beta)}{\sigma^2} = 0$$
+$$\frac{\partial \ln L}{\partial \sigma^2} = \frac{-T}{2\sigma^2} + \frac{(y-X\beta)'(y-X\beta)}{2\sigma^4} = 0$$
+\end{Answer}
 \newpage
 
 
-\section{Cobb-Douglas Production Function}
+\begin{Exercise}[title=(Cobb-Douglas Production Function)]
 Consider the following Cobb-Douglas production function
 $$Y = \tau K^{\beta_1} L^{\beta_2}$$
 where $Y$ denotes total production, which is dependent on the used capital stock $K$ and labor input $L$. Assume that technology $\tau$ is constant. The observation period contains quarterly data from 1990Q1 to 2009Q4
-\begin{enumerate}[label=(\alph*)]
-	\item Derive the econometric model, which can be used to estimate the parameters of the production function.
-	\item Which parameters are elasticities?
-	\item Estimate the parameters of the model and test their significance. For this the following results are available:
+\Question Derive the econometric model, which can be used to estimate the parameters of the production function.
+\Question Which parameters are elasticities?
+\Question Estimate the parameters of the model and test their significance. For this the following results are available:
 	$$(\mathbf{X}'\mathbf{X})^{-1}=
 	\begin{pmatrix}
     0.021 &   0.005 &   0.007\\
@@ -66,40 +88,137 @@ where $Y$ denotes total production, which is dependent on the used capital stock
 	\mathbf{y}'\mathbf{y}=4012.214
 	$$
 	where the first column of $X$ contains ones, the second column the values of the capital stock in logs, the third column the labor input in logs and $\mathbf{y}$ is the vector with the values for production in logs.
-	\item Compute and interpret the coefficient of determination.
-	\item Test whether the model is statistically significant, i.e. $H_0: R^2=0$ vs. $H_1: R^2 \neq 0$.
-	\item Test the hypothesis that the Cobb-Douglas production function has constant elasticities to scale, i.e. $\beta_1+\beta_2=1$
-	\item Determine a 98\% and 95\% confidence set for $\beta_1$. Do confidence sets get smaller or larger for increasing significance level $a$? Why?
-\end{enumerate}
+\Question Compute and interpret the coefficient of determination.
+\Question Test whether the model is statistically significant, i.e. $H_0: R^2=0$ vs. $H_1: R^2 \neq 0$.
+\Question Test the hypothesis that the Cobb-Douglas production function has constant elasticities to scale, i.e. $\beta_1+\beta_2=1$
+\Question Determine a 98\% and 95\% confidence set for $\beta_1$. Do confidence sets get smaller or larger for increasing significance level $a$? Why?
+\end{Exercise}
+
+\begin{Answer}
+\Question
+Linearization yields: $$\ln(F(K,L)) = \ln(\tau) + \beta_1 \ln(K) + \beta_2 \ln(L)$$
+Hence the model to estimate is
+$$y_t = \alpha + \beta_1 k_t + \beta_2 l_t + u_t$$
+\Question
+All variables are in logs, hence $\hat{\beta}_1$ and $\hat{\beta}_2$ are elasticities. If the capital stock increases by 1\%, then output will increase by $\hat{\beta}_1$\%. $\alpha$ is a constant, not an elasticity.
+\Question
+$$\hat{\beta} = (X'X)^{-1}(X'y) = \begin{pmatrix}-6.215\\0.590\\0.564\end{pmatrix}$$ where $T=(2009-1990+1)\cdot 4 = 80$. Furthermore: $\hat{u}=y-X\hat{\beta}$, $\hat{y}=X\hat{\beta}$, $S_{yy}=S_{\hat{y}\hat{y}} +S_{\hat{u}\hat{u}}$
+\begin{align*}
+y'y = \hat{y}'\hat{y}+\hat{u}'\hat{u} = \hat{\beta}'X'X\hat{\beta} + \hat{u}'\hat{u} =\hat{\beta}'X'X(X'X)^{-1}X'y + \hat{u}'\hat{u} = \hat{\beta}'X'y + \hat{u}'\hat{u}
+\end{align*}
+Hence, $$\hat{u}'\hat{u} = y'y - \hat{\beta}'X'y = 77$$
+and $$\hat{\sigma}^2 = \frac{\hat{u}'\hat{u}}{80-3}=1$$
+$$\hat{V}(\hat{\beta})=\hat{\sigma^2}(X'X)^{-1} = (X'X)^{-1}$$
+\begin{itemize}
+	\item[(i)] $H_0:\beta_1=0$ vs $H_1:\beta_1 >0$ (one-sided as negative elasticities are economically infeasible)
+	\item[(ii)] $H_0:\beta_2=0$ vs $H_1:\beta_2 >0$ (one-sided as negative elasticities are economically infeasible)
+\end{itemize}
+t-statistics: 
+$$t_1 = \frac{\hat{\beta}_1-0}{\sqrt{0.014}}=4.986$$ 
+$$t_2 = \frac{\hat{\beta}_2-0}{\sqrt{0.012}}=5.148$$
+Critical value is $t^{crit} = t_{0.95,77} = 1.684$
+
+Decision for both: we reject $H_0$.
+\Question
+$$S_{\hat{y}\hat{y}} = y'y = T\bar{y}^2 = 4012.214 - 80\cdot(-552/80)^2 = 203.414$$
+$$R^2 = 1- \frac{S_{\hat{u}\hat{u}}}{S_{\hat{y}\hat{y}}}=0.6215$$
+62.15\% of the variation in log output is explained by the variation in the exogenous variables.
+\Question
+$H_0:R^2=0$ vs. $H_1:R^2>0$ is equivalent to $H_0:\beta_1=0$ and $\beta_2=0$ vs. $H_1:$ either $\beta_1\neq0$ or $\beta_2\neq0$ or both.
+We can test this with an F-test:
+$$F = \frac{R^2/((K+1)-L)}{(1-R^2)/(T-(K+1))} = \frac{0.6215/(3-1)}{(1-0.6215)/(80-3)} = 63.207$$
+The critical value is $F^{crit} = F_{0.95,77}=[3.11,3.12]$.
+Because $F>F^{crit}$ we reject the null hypothesis, the model is useful.
+\Question
+$H_0:\beta_1+\beta_2 = 1$ vs. $H_1:\beta_1+\beta_2\neq 1$
+F-test with $R\beta=q$:
+$$\begin{pmatrix}0 & 1 & 1\end{pmatrix}\begin{pmatrix} \alpha \\ \beta_1 \\ \beta_2 \end{pmatrix} = 1$$
+Test statistic:
+$$F = \frac{1}{L} (R\hat{\beta}-q)'\left[R\hat{\sigma}^2(X'X)^{-1}R'\right]^{-1}(R\hat{\beta}-q)$$
+$$R\hat{\beta}-q = \hat{\beta}_1+\hat{\beta}_2-1=0.154$$
+With $L=1$ and $\hat{\sigma}^2=1$ we get $$F=1.318$$
+The critical value is $F^{crit}=F_{0.95,1,77}=[3.96,3.97]$. Since $F<F^{crit}$ we cannot reject the null hypthesis, i.e. constant elasticities to scale might be true.
+\Question
+$$Pr\left[\hat{\beta}_1 - t_{1-a/2,T-K-1}\cdot \sqrt{\hat{V}(\hat{\beta}_1)} \leq \beta_1 \leq \hat{\beta}_1 + t_{1-a/2,T-K-1}\cdot \sqrt{\hat{V}(\hat{\beta}_1)} \right]=1-a$$
+For $a=0.05$ we have $t_{0.975,77}=1.96$ and
+$$\left[0.358;0.822\right]$$
+For $a=0.02$ we have $t_{1-\frac{0.02}{2},77}=2.326$ and
+$$\left[0.315;0.865\right]$$
+When a gets smaller, the type I error decreases, i.e. $H_0$ is rejected even if it is true. Type II errors, ie we do not reject $H_0$ even though it is false, increases.
+For the type I error to decrease, the intervall needs to get wider.
+\end{Answer}
 \newpage
 
-\section{Labor Demand}
+\begin{Exercise}[title=(Labor Demand)]
 In order to estimate the labor demand, the following model is estimated:
 $$ \ln(n_t) = \alpha + \beta_1 \ln(p_t) + \beta_2 \ln(w_t) + u_t$$
 where $n_t$ denotes the labor demand (number of employees), $p_t$ production (real GDP) and $w_t$ the nominal wage. Consider a sample with yearly data covering 1970-2006.
-\begin{enumerate}[label=(\alph*)]
-	\item Compute the value $\beta_2$ such that, when the nominal wage decreases by 5\%, the number of employees will increase from 25 to 26 Millions.
-	\item An estimation with nominal wages in DM yields: 
+\Question Compute the value $\beta_2$ such that, when the nominal wage decreases by 5\%, the number of employees will increase from 25 to 26 Millions.
+\Question An estimation with nominal wages in DM yields: 
 	$$\hat{\alpha} = 0.8, \qquad \hat{\beta}_1 = 1.3, \qquad \hat{\beta}_2 = -1.5$$
 	Due to the change of currency to Euro the nominal wage is multiplied by the factor $1/1.956=0.5113$. How do the estimates change if one considers the nominal wage in Euros instead of in DM?
-\end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+\Question
+$$\beta_2 = \frac{\partial \ln(n_t)}{\partial \ln(w_t)} = \frac{\frac{\partial n_t}{n_t}}{\frac{\partial w_t}{w_t}}$$
+$$\frac{\partial n_t}{n_t} = \frac{26-25}{25}=0.04$$
+$$\frac{\partial w_t}{w_t} = -0.05$$
+Hence $\beta_2 = \frac{0.04}{-0.05}=-0.8$.
+\Question
+New model:
+\begin{align*}
+\ln(n_t) &= \alpha + \beta_1 \ln(p_t) + \beta_2 \ln(w_t \cdot 0.5113) + u_t\\
+&=\underbrace{\alpha + \beta_2\ln(0.5113)}_{\alpha^*} + \beta_1 \ln(p_t) + \beta_2 \ln(w_t) + u_t
+\end{align*}
+only the estimate for the constant will change to $\hat{\alpha}^* = \hat{\alpha}+\hat{\beta}_2\ln(0.5113)=1.8062$, the other estimates will remain the same.
+\end{Answer}
 
 
 \newpage
-\section{Estimating functions}
+\begin{Exercise}[title=(Estimating Functions)]
 Consider the estimation of a simple regression model without a constant term
 $$y_t = \beta x_t + u_t, \qquad t=1,...,T$$
 where it is assumed that the last observation may be erroneous. Therefore, the observation at time point $T$ gets a lower (deterministic) weight, $0 \leq w <1$, in the following estimating function:
 $$\tilde{\beta}_w = \frac{\left(\sum_{t=1}^{T-1}x_t y_t\right)+w (x_T y_T)}{\left(\sum_{t=1}^{T-1}x_t^2\right)+w x_T^2}$$
-\begin{enumerate}[label=(\alph*)]
-	\item Show that the estimating function $\tilde{\beta}_w$ is unbiased for $\beta$.\\
+\Question Show that the estimating function $\tilde{\beta}_w$ is unbiased for $\beta$.\\
 \textit{	Hint: Show that
 	$$\tilde{\beta}_w = \beta + \frac{(\sum_{t=1}^{T-1}x_t u_t)+w x_T u_T}{k}$$ where $k=(\sum_{t=1}^{T-1}x_t^2)+w x_T^2$.} 
-	\item Compute the variance of $\tilde{\beta}_w$ for $w=0.5$ provided that
+\Question Compute the variance of $\tilde{\beta}_w$ for $w=0.5$ provided that
 	$$ \sum_{t=1}^{T} x_t^2 = 100,\qquad x_T = 2,\qquad \sigma^2 = 1$$
 	\textit{Hint: Use the fact that $E(u_t u_s)=0$ for $t\neq s$.}
-	\item Do you expect the variance of the least squares estimator  $\hat{\beta}$ to be smaller, equal or larger to the variance of $\tilde{\beta}_w$?
-\end{enumerate}
+\Question Do you expect the variance of the least squares estimator  $\hat{\beta}$ to be smaller, equal or larger to the variance of $\tilde{\beta}_w$?
+\end{Exercise}
+
+\begin{Answer}
+\Question
+We need to show that $E[\tilde{\beta}_w] = \beta$. Proof:
+\begin{align*}
+\tilde{\beta}_w &= \frac{(\sum_{t=1}^{T-1}x_ty_t) + w (x_T y_T)}{(\sum_{t=1}^{T-1}x_t^2)+w x_T^2}\\
+&= \frac{(\sum_{t=1}^{T-1}x_t(\beta x_t + u_t)) + w (x_T (\beta x_T + u_T))}{(\sum_{t=1}^{T-1}x_t^2)+w x_T^2}\\
+&= \frac{\beta\sum_{t=1}^{T-1}x_t^2 + \sum_{t=1}^{T-1} x_t u_t + \beta w x_T^2 + w x_T u_T}{(\sum_{t=1}^{T-1}x_t^2)+w x_T^2}\\
+&= \frac{\beta(\sum_{t=1}^{T-1}x_t^2 + w x_T^2) + (\sum_{t=1}^{T-1} x_t u_t  + w x_T u_T)}{(\sum_{t=1}^{T-1}x_t^2)+w x_T^2}\\
+&= \beta + \frac{\sum_{t=1}^{T-1} x_t u_t  + w x_T u_T}{(\sum_{t=1}^{T-1}x_t^2)+w x_T^2}
+\end{align*}
+As $E(u_t)=0$ we now can show that
+$\tilde{\beta}_w = \beta$
+\Question
+\begin{align*}
+var(\tilde{\beta}_w) &= E[(\tilde{\beta}_w-E(\tilde{\beta}_w))^2] = E[(\tilde{\beta}_w-\beta)^2] = E\left[\underbrace{\frac{1}{(\sum_{t=1}^{T-1}x_t^2+w x_T^2)^2}}_{const}\left(\sum_{t=1}^{T-1} x_t u_t  + w x_T u_T\right)^2\right]\\
+&= const \cdot E\left[\sum_{t=1}^{T-1}x_t u_t \sum_{t=1}^{T-1}x_t u_t + 2\sum_{t=1}^{T-1}x_t u_t wx_Tu_T + w^2x_T^2u_T^2\right]\\
+&= const \cdot \sum_{s=1}^{T-1}\sum_{t=1}^{T-1}x_s x_t E[u_s u_t] + const\cdot 2 \sum_{t=1}^{T-1}x_t w x_T E[u_t u_T] + const\cdot w^2 x_T^2 E[u_T^2]\\
+\end{align*}
+Note that $E[u_tu_s]=$ for $t\neq s$, hence
+\begin{align*}
+var(\tilde{\beta}_w) &= const \cdot \sum_{t=1}^{T-1} x_t^2 E[u_t u_t] + const\cdot w^2 x_T^2 \sigma^2\\
+&= const \cdot \left( \sum_{t=1}^{T-1} x_t^2 \sigma^2 + w^2 x_T^2 \sigma^2\right)
+\end{align*}
+Now we have that $\sum_{t=1}^{T-1}x_t^2=\sum_{t=1}^T x_t^2 - x_T^2 = 100-4 = 96$. So for $w=0.5$:
+$$var(\tilde{\beta}_w) = \frac{96}{96+0.5\cdot 4}\cdot 1 + \frac{0.25\cdot 4}{96+0.5\cdot 4}\cdot 1 = 0.9897$$
+
+\Question
+The least-square estimator is BLUE, hence we expect it to be smaller as the proposed estimator is not the OLS estimator unless $w=1$.
+\end{Answer}
 \newpage
 	
 

@@ -2,6 +2,14 @@
 % !TeX spellcheck = en_US
 \documentclass{article}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+  lastexercise,
+%  noanswer,
+]{exercise}
+\renewcommand{\QuestionNB}{\alph{Question}.\ }
+\renewcommand{\subQuestionNB}{\roman{subQuestion}.\ }
+\renewcommand{\subsubQuestionNB}{\arabic{subsubQuestion}.\ }
+
 \usepackage[a4paper,top=2cm]{geometry}
 \usepackage{amssymb,amsmath,amsfonts}
 \usepackage[english]{babel}
@@ -10,6 +18,7 @@
 \usepackage{booktabs}
 \usepackage{csquotes}
 \usepackage{dcolumn}
+\usepackage{graphicx}
 \newcolumntype{d}[1]{D{.}{.}{#1}}
 
 \begin{document}
@@ -36,17 +45,23 @@
 \thispagestyle{empty}
 
 \newpage
-\setcounter{page}{1}
-\section{Understanding}
-\begin{enumerate}[label=(\alph*)]
-	\item State one of the A, B and C assumptions introduced in the lecture in your own words. Provide a counter example by drawing a picture of points (scatterplot), if possible. Otherwise describe the counterexample in your own words.
-%	\item Formalize the optimization problem which is solved by the  least squares estimator and give its first order conditions (you need not solve the	resulting system of equations).
-	\item Explain the idea of the Likelihood-Ratio test in two	sentences.
-	
-\end{enumerate}
 
+\setcounter{page}{1}
+\begin{Exercise}[title=(Understanding)]
+	\Question State one of the A, B and C assumptions introduced in the lecture in your own words. Provide a counter example by drawing a picture of points (scatterplot), if possible. Otherwise describe the counterexample in your own words.
+	\Question Explain the idea of the Likelihood-Ratio test in two	sentences.	
+\end{Exercise}
+\begin{Answer}
+	\Question
+	The relationship between the endogenous variable $y_t$ and $x_t$ is linear. A counter example:
+	\includegraphics[width=0.5\textwidth]{plots/quadratic.png}
+	
+	\Question
+	If the maximal likelihood under the restrictions $L(\hat{\beta}_R,\hat{\sigma}^2_R)$ is significantly lower than the maximal likelihood without restrictions $L(\hat{\beta}_{ML},\hat{\sigma}^2_{ML})$ then we reject the null hypothesis.
+\end{Answer}
 \newpage
-\section{Money demand}
+
+\begin{Exercise}[title=(Money Demand)]
 The demand for money is determined using the regression model
 $$ y_t = \alpha + \beta_1 x_{1t} + \beta_2 x_{2t} + u_t$$
 where
@@ -66,21 +81,38 @@ $$\widehat{\operatorname{Var}}(\hat{\beta}) = \hat{\sigma}^2 (X'X)^{-1} =
 &        & 0.001			
 \end{pmatrix}$$
 Furthermore, we have that $$\frac{1}{T} (\mathbf{y}'\mathbf{y} - T \bar{y}^2)=20$$ where $\mathbf{y}$ denotes the $T\times1$ vector with $y_t$ in the t-th row.
-\begin{enumerate}[label=(\alph*)]
-	\item What do the estimated values $\hat{\beta}_1$ and $\hat{\beta}_2$ mean for the effect of the corresponding variables on the demand for money?
-	\item Test the following hypotheses:
-	\begin{enumerate}[label=(\roman*)]
-		\item $H_0:$ $\beta_1=1$ vs. $H_1: \beta_1 \neq1$
-		\item $H_0:$ $\beta_2=0$ vs. $H_1: \beta_2 <0$
-		\item $H_0:$ $\beta_1=1$ and $\beta_2=0$ vs. $H_1:$ the null hypothesis is not true.
-	\end{enumerate}
-	\item Compute the maximum likelihood estimators for $\alpha$, $\beta_1$, $\beta_2$ and $\sigma^2$.\\
-	\textit{Hint: $R^2=1-\frac{S_{\hat{u}\hat{u}}}{S_{yy}}$}.
+\Question What do the estimated values $\hat{\beta}_1$ and $\hat{\beta}_2$ mean for the effect of the corresponding variables on the demand for money?
+\Question Test the following hypotheses:
+	\subQuestion $H_0:$ $\beta_1=1$ vs. $H_1: \beta_1 \neq1$
+	\subQuestion $H_0:$ $\beta_2=0$ vs. $H_1: \beta_2 <0$
+	\subQuestion $H_0:$ $\beta_1=1$ and $\beta_2=0$ vs. $H_1:$ the null hypothesis is not true.
+\Question Compute the maximum likelihood estimators for $\alpha$, $\beta_1$, $\beta_2$ and $\sigma^2$.\\
+\textit{Hint: $R^2=1-\frac{S_{\hat{u}\hat{u}}}{S_{yy}}$}.
 	
-\end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+\Question
+	Both variables, real money stock and real income, are in logs, hence $\hat{\beta}_1$ is an elasticity which measure the percentage change of real money demand if the real income changes by 1\%. $\hat{\beta}_2$ measures the percentage increase of real money demand, if the interest rate increases by one point, it is a semi-elasticity.
+\Question
+\subQuestion $H_0: \beta_1=1$ vs. $H_1:\beta_1 \neq 1$ Two-sided test: $$t= \frac{\hat{\beta}_1 - 1}{\hat{se}(\hat{\beta}_1)} = \frac{1.5-1}{\sqrt{0.002}}=11.1$$
+$t^{crit} = t_{1-\alpha/2,T-3} = 1.96$. Since $|t| > t^{crit}$, we reject the null hypothesis.
+\subQuestion $H_0: \beta_2=0$ vs. $H_1:\beta_2 < 0$ One-sided test: $$t= \frac{-0.01 - 0}{\sqrt{0.001}}=-0.3165$$
+$t^{crit} = t_{1-\alpha,T-3} = 1.645$. Since $t < t^{crit}$, we cannot reject the null hypothesis.
+\subQuestion $H_0: \beta_1=1$ and $\beta_2=0$ vs. $H_1$: not $H_0$. F-test: $H_0:R\beta = q$ with $R=\begin{pmatrix}0 & 1 & 0\\0 & 0 & 1\end{pmatrix}$ and $q=\begin{pmatrix}1\\0\end{pmatrix}$ and $L=2$, then
+$$F=\frac{(R\hat{\beta}-q)'[R(X'X)^{-1}R']^{-1}(R\hat{\beta}-q)/L}{\hat{\sigma}^2}$$
+Note that we have $\hat{\sigma}^2 (X'X)^{-1}$, so 
+$$F=(R\hat{\beta}-q)'[R\hat{\sigma}^2(X'X)^{-1}R']^{-1}(R\hat{\beta}-q)/L = 62.55$$
+$F^{crit} = F^(1-a)_{2,101} = 3.09$. As $F>F^{crit}$ we reject the null hypothesis.
+\Question $R^2 = 1-\frac{S_{\hat{u}\hat{u}}}{S_{yy}}=0.95$, $S_{\hat{u}\hat{u}} = (1-0.95)S_{yy}$, $S_{yy} = \sum (y_t -\bar{y})^2 = \sum y_t^2 - T\bar{y}^2 = 108\cdot 20 =2160$.
+Hence, $S_{\hat{u}\hat{u}} = 108$, then $\hat{\sigma}^2_{ML} = \frac{1}{108}108 = 1$.
+
+$\hat{\beta}_{1,ML} = \hat{\beta}_1 = 1.5$, $\hat{\beta}_{2,ML} = \hat{\beta}_2 = -0.01$ and $\hat{\alpha}_{ML} = \hat{\alpha} = -8.2$
+\end{Answer}
+
 \newpage
 
-\section{Capital-Asset-Pricing-Model}
+\begin{Exercise}[title=(Capital-Asset-Pricing-Model)]
 Consider the following regression model for an extended Capital-Asset-Pricing-Model (CAPM):
 $$y_t = \alpha + \beta_1 x_{1t} + \beta_2 x_{2t} + u_t$$
 where
@@ -112,15 +144,12 @@ Note that the P/E ratio is defined as the ratio of a company's stock price to th
 \mathbf{y}'\mathbf{y} &= 138.496
 \end{align*}
 
-\begin{enumerate}
-	\item[(a)] Estimate a $95\%$ confidence interval for $\beta_2$ given the least squares estimator $\hat{\beta}_2$.
-\end{enumerate}
-Your professor argues that $x_{2t}$ is not a relevant variable and wants you to reestimate the model without it. 
-\begin{enumerate}
-	\item[(b)] Do you agree with your professor given the current dataset? Briefly outline the possible consequences of omitting $x_{2t}$.
-	\item[(c)] Assume that the true value of $\beta_2$ is 0.2. Compute the bias of the least squares estimators $\hat{\alpha}$ and $\hat{\beta}_1$ if one estimates
-	$$y_t = \alpha + \beta_1 x_{1t} + v_t$$
-	where $v_t$ are the error terms of the simplified regression model.\\\textit{Hint:}
+\Question Estimate a $95\%$ confidence interval for $\beta_2$ given the least squares estimator $\hat{\beta}_2$.
+
+\Question Your professor argues that $x_{2t}$ is not a relevant variable and wants you to reestimate the model without it. Do you agree with your professor given the current dataset? Briefly outline the possible consequences of omitting $x_{2t}$.
+\Question Assume that the true value of $\beta_2$ is 0.2. Compute the bias of the least squares estimators $\hat{\alpha}$ and $\hat{\beta}_1$ if one estimates
+$$y_t = \alpha + \beta_1 x_{1t} + v_t$$
+where $v_t$ are the error terms of the simplified regression model.\\\textit{Hint:}
 $
 \begin{pmatrix}
 100 &  30\\
@@ -131,30 +160,81 @@ $
 -0.003 &   0.010
 \end{pmatrix}
 $
-\end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+\Question
+$$\hat{\beta}=(X'X)^{-1}(X'y) = \begin{pmatrix}0.1\\0.5\\0.2\end{pmatrix}$$
+$$\hat{V}(\hat{\beta}) = \hat{\sigma}^2 (X'X)^{-1}$$
+Due to the variance decomposition, we have
+$$\hat{u}'\hat{u} = y'y - \hat{\beta}'X'y = 138.495 - \begin{pmatrix}0.1 & 0.5 & 0.2\end{pmatrix} \begin{pmatrix} 29.29\\58.79\\45.86\end{pmatrix} = 97$$
+$$\hat{\sigma}^2 = \frac{1}{100-3} \cdot 97 = 1$$
+$$\hat{V}(\hat{\beta}_3) = 0.005 \hat{\sigma}^2 = 0.005$$
+$$t_{1-\alpha/2} = 1.9847$$
+The interval is
+$$[\hat{\beta_3} \pm t_{1-\alpha/2} \hat{V}(\hat{\beta}_3)]$$
+\Question
+Omitted variable bias! Since $X'X$ is not diagonal, there is a bias.
+\Question
+We have $$E(\hat{\beta}_a)-\beta_a = (X_a'X_a)^{-1} X_a'X_2\beta_2$$
+Re-estimation:
+$$X'X = \begin{pmatrix} X_a'X_a & X_a'X_2\\ X_2' X_a & X_2'X_2\end{pmatrix}$$
+$$(X_a'X_a)^{-1} = \begin{pmatrix} 100 & 30 \\ 30 &100 \end{pmatrix}^{-1} = \begin{pmatrix}0.011 & -0.003 \\ -0.003 & 0.010\end{pmatrix}$$
+Hence the bias is equal to
+$$\begin{pmatrix}0.011 & -0.003 \\ -0.003 & 0.010\end{pmatrix}\begin{pmatrix}20\\7\end{pmatrix} \cdot 0.2 = \begin{pmatrix}0.0398\\0.002\end{pmatrix}$$
+\end{Answer}
 \newpage
-\section{Estimating functions}
+
+\begin{Exercise}[title=(Estimating Functions)]
 Consider the simple linear regression model
 $$y_t = \alpha + \beta x_t + u_t, \qquad t=1,...,20$$
 and the following estimating function for the slope parameter $\beta$:
 $$\tilde{\beta} = \frac{\bar{y}_2-\bar{y}_1}{\bar{x}_2 -\bar{x}_1}$$
 where
 $$\bar{y}_1 = \frac{1}{10} \sum_{t=1}^{10} y_t, \quad \bar{y}_2 = \frac{1}{10} \sum_{t=11}^{20} y_t, \quad \bar{x}_1 = \frac{1}{10} \sum_{t=1}^{10} x_t, \quad \bar{x}_2 = \frac{1}{10} \sum_{t=11}^{20} x_t$$
-\begin{itemize}
-	\item[(a)] Show that $\tilde{\beta}$ is an unbiased estimating function for $\beta$.\\\textit{Hint: Show that }$$\tilde{\beta} = \beta + \frac{\sum_{t=11}^{20} u_t - \sum_{t=1}^{10}u_t}{k}$$
+\Question Show that $\tilde{\beta}$ is an unbiased estimating function for $\beta$.\\\textit{Hint: Show that }$$\tilde{\beta} = \beta + \frac{\sum_{t=11}^{20} u_t - \sum_{t=1}^{10}u_t}{k}$$
 	\textit{where $k=\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t$.}
-\end{itemize}
-~\\ \newline
-For the next two exercises assume that 
-$$\sum_{t=1}^{20}(x_t - \bar{x})^2 = 40, \quad \sigma^2=1, \quad \bar{x}_1 = 3, \quad \bar{x}_2 = 5.$$
-\begin{itemize}
-	\item[(b)] Compute the variance of $\tilde{\beta}$.\\
-	\textit{Hint: Use the fact that $E(u_t u_s) = 0$ for $t\neq s$.}
-	\item[(c)]  Compute the variance of the least-squares estimator $\hat{\beta}$ and compare it to the one of $\tilde{\beta}$.
-	
-\end{itemize}
 
-	\newpage 
+\Question For the next two exercises assume that 
+$$\sum_{t=1}^{20}(x_t - \bar{x})^2 = 40, \quad \sigma^2=1, \quad \bar{x}_1 = 3, \quad \bar{x}_2 = 5.$$
+\subQuestion Compute the variance of $\tilde{\beta}$.\\
+	\textit{Hint: Use the fact that $E(u_t u_s) = 0$ for $t\neq s$.}
+\subQuestion Compute the variance of the least-squares estimator $\hat{\beta}$ and compare it to the one of $\tilde{\beta}$.
+\end{Exercise}
+
+\begin{Answer}
+\Question
+We need to show that $E(\tilde{\beta}) = \beta$. Proof:
+\begin{align*}
+\tilde{\beta} &= \frac{\bar{y}_2 - \bar{y}_1}{\bar{x}_2 - \bar{x}_1}\\
+&= \frac{1/10 \sum_{t=11}^{20} y_t - 1/10 \sum_{t=1}^{10} y_t}{1/10 \sum_{t=11}^{20} x_t - 1/10 \sum_{t=1}^{10} x_t}\\
+&= \frac{\sum_{t=11}^{20} y_t - \sum_{t=1}^{10} y_t}{\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t}\\
+&= \frac{\sum_{t=11}^{20} (\alpha + \beta x_t + u_t) - \sum_{t=1}^{10} (\alpha + \beta x_t + u_t)}{\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t}\\
+&= \frac{10\alpha + \beta \sum_{t=11}^{20} x_t + \sum_{t=11}^{20} u_t - 10 \alpha -\beta \sum_{t=1}^{10} x_t -\sum_{t=1}^{10} u_t}{\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t}\\
+&= \frac{\beta (\sum_{t=11}^{20} x_t -\sum_{t=1}^{10} x_t) + \sum_{t=11}^{20} u_t  -\sum_{t=1}^{10} u_t}{\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t}\\
+&= \beta + \frac{\sum_{t=11}^{20} u_t  -\sum_{t=1}^{10} u_t}{\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t}
+\end{align*}
+Since $E(u_t)=0$, we have that 
+$$E(\tilde{\beta}) = \beta$$
+\Question
+\subQuestion
+\begin{align*}
+var(\tilde{\beta}) &= E[(\tilde{\beta}-E(\tilde{\beta}))^2] = E[(\tilde{\beta}-\beta)^2] = E\left[\left( \frac{\sum_{t=11}^{20} u_t  -\sum_{t=1}^{10} u_t}{\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t}\right)\right]\\
+&=\frac{1}{(\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t)^2}\cdot E\left[\sum_{t=11}^{20}u_t\sum_{t=11}^{20}u_t - 2\sum_{t=11}^{20}u_t\sum_{t=1}^{10}u_t + \sum_{t=1}^{10}u_t\sum_{t=1}^{10}u_t\right]
+\end{align*}
+Note that $E[u_tu_s]=$ for $t\neq s$, hence
+\begin{align*}
+\tilde{\beta} &= \frac{1}{(\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t)^2}\cdot \left[\sum_{t=11}^{20}E[u_t^2] + \sum_{t=1}^{10}E[u_t^2]\right]\\
+&= \frac{1}{(\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t)^2}\cdot \left[10\sigma^2+10\sigma^2\right] = \frac{20\sigma^2}{(\sum_{t=11}^{20} x_t - \sum_{t=1}^{10} x_t)^2}
+\end{align*}
+We have that $\bar{x}_1 \cdot 10 = \sum_{t=1}^{10} x_t = 3\cdot 10 = 30$ and $\sum_{t=11}^{20} x_t = 5 \cdot 10 = 50$. Hence
+$$var(\tilde{\beta}) = \frac{20 \cdot 1}{(50-30)^2} = \frac{1}{20}$$
+\subQuestion
+Variance of OLS estimator: $$var(\hat{\beta}) = \frac{\sigma^2}{\sum_{t=1}^{20}(x_t-\bar{x})^2} = \frac{1}{40}$$
+OLS is BLUE, hence it has a smaller variance that $\tilde{\beta}$.
+\end{Answer}
+
+\newpage 
 	\begin{minipage}[t]{6cm}
 		Table of quantiles of the $t_{\nu }$-distribution,\\ given are the $(1-a)$%
 		-quantiles
